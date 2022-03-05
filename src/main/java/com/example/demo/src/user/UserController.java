@@ -29,8 +29,6 @@ public class UserController {
     private final JwtService jwtService;
 
 
-
-
     public UserController(UserProvider userProvider, UserService userService, JwtService jwtService){
         this.userProvider = userProvider;
         this.userService = userService;
@@ -164,6 +162,7 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
     /**
      * 키워드 등록*/
     @ResponseBody
@@ -179,6 +178,31 @@ public class UserController {
     }
 
     /**
+     * 물품에 관심누르기*/
+    @ResponseBody
+    @PostMapping("/interest")
+    public BaseResponse<PostUserRes> createProductInterest(@RequestBody PostInterestReq postInterestReq) {
+
+        try{
+            PostUserRes postUserRes = userService.createProductInterest(postInterestReq);
+            return new BaseResponse<>(postUserRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+    /**
+     * 비즈니스 단골하기*/
+    @ResponseBody
+    @PostMapping("/regular")
+    public BaseResponse<PostUserRes> createBusinessRegular(@RequestBody PostRegularReq postRegularReq) {
+        try{
+            PostUserRes postUserRes = userService.createBusinessRegular(postRegularReq);
+            return new BaseResponse<>(postUserRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+    /**
      * 회원가입 API
      * [POST] /users
      * @return BaseResponse<PostUserRes>
@@ -192,7 +216,7 @@ public class UserController {
             return new BaseResponse<>(POST_USERS_EMPTY_PHONE);
         }
         if(postUserReq.getNick()==null){
-            return new BaseResponse<>(POST_USERS_EMPTY_PHONE);
+            return new BaseResponse<>(POST_USERS_EMPTY_NICK);
         }
         //이메일 정규표현
 //        if(!isRegexEmail(postUserReq.getPhone())){
@@ -207,11 +231,11 @@ public class UserController {
     }
 
 
-    /**
-     * 로그인 API
-     * [POST] /users/logIn
-     * @return BaseResponse<PostLoginRes>
-     */
+//    /**
+//     * 로그인 API
+//     * [POST] /users/logIn
+//     * @return BaseResponse<PostLoginRes>
+//     */
 //    @ResponseBody
 //    @PostMapping("/logIn")
 //    public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
@@ -225,11 +249,11 @@ public class UserController {
 //        }
 //    }
 
-    /**
-     * 유저정보변경 API
-     * [PATCH] /users/:userIdx
-     * @return BaseResponse<String>
-     */
+//    /**
+//     * 유저정보변경 API
+//     * [PATCH] /users/:userIdx
+//     * @return BaseResponse<String>
+//     */
 //    @ResponseBody
 //    @PatchMapping("/{userIdx}")
 //    public BaseResponse<String> modifyUserName(@PathVariable("userIdx") int userIdx, @RequestBody User user){

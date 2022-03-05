@@ -41,6 +41,12 @@ public enum BaseResponseStatus {
     POST_BUSINESS_EMPTY_TYPE(false, 2023, "비즈니스 업종을 입력해주세요"),
     POST_BUSINESS_EMPTY_DETAIL_TYPE(false, 2024, "비즈니스 상세업종을 입력해주세요"),
 
+    //product
+    POST_PRODUCT_EMPTY_TITLE(false, 2025, "제목을 입력해주세요"),
+    POST_PRODUCT_EMPTY_CONTENT(false, 2026, "내용을 입력해주세요"),
+
+    POST_USERS_EXISTS_KEYWORD(false, 2027, "중복된 키워드 입니다."),
+
     /**
      * 3000 : Response 오류
      */

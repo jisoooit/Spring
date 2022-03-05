@@ -48,6 +48,8 @@ com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
 com/example/demo/src/product/model/PostProductRes.java
  com.example.demo.src.product.model.PostProductRes
+com/example/demo/src/user/model/PostRegularReq.java
+ com.example.demo.src.user.model.PostRegularReq
 com/example/demo/src/business/BusinessProvider.java
  com.example.demo.src.business.BusinessProvider
 com/example/demo/src/product/ProductController.java
@@ -64,6 +66,8 @@ com/example/demo/src/user/model/PostUserReq.java
  com.example.demo.src.user.model.PostUserReq
 com/example/demo/src/user/model/PostKeyWordReq.java
  com.example.demo.src.user.model.PostKeyWordReq
+com/example/demo/src/user/model/PostInterestReq.java
+ com.example.demo.src.user.model.PostInterestReq
 com/example/demo/src/user/model/PostLoginRes.java
  com.example.demo.src.user.model.PostLoginRes
 com/example/demo/src/user/UserDao.java

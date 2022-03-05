@@ -76,6 +76,12 @@ public class ProductController {
     @PostMapping("")
     public BaseResponse<PostProductRes> createProduct(@RequestBody PostProductReq postProductReq) {
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
+        if(postProductReq.getTitle() == null){
+            return new BaseResponse<>(POST_PRODUCT_EMPTY_TITLE);
+        }
+        if(postProductReq.getContent() == null){
+            return new BaseResponse<>(POST_PRODUCT_EMPTY_CONTENT);
+        }
         try{
             PostProductRes postProductRes = productService.createProduct(postProductReq);
             return new BaseResponse<>(postProductRes);

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
@@ -31,9 +32,24 @@ public class UserService {
         this.userProvider = userProvider;
         this.jwtService = jwtService;
     }
+    /*물품에 관심 누르기*/
+    public PostUserRes createProductInterest(PostInterestReq postInterestReq) throws BaseException {
+        //중복
+        try{
+            int id = userDao.createProductInterest(postInterestReq);
+            //jwt 발급.
+            String jwt = jwtService.createJwt(id);
+            return new PostUserRes(jwt,id);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
     /*키워드알림등록*/
     public PostKeyWordRes createKeyWord(PostKeyWordReq postKeyWordReq) throws BaseException {
         //중복
+        if(userProvider.checkKeyWord(postKeyWordReq.getKeyword()) ==1){
+            throw new BaseException(POST_USERS_EXISTS_KEYWORD);
+        }
         try{
             int id = userDao.createKeyWord(postKeyWordReq);
             //jwt 발급.
@@ -43,8 +59,20 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    /*비즈니스 단골하기*/
+    public PostUserRes createBusinessRegular(PostRegularReq PostRegularReq) throws BaseException {
+        //중복
+        try{
+            int id = userDao.createBusinessRegular(PostRegularReq);
+            //jwt 발급.
+            String jwt = jwtService.createJwt(id);
+            return new PostUserRes(jwt,id);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
     //POST
+    @Transactional
     public PostUserRes createUser(PostUserReq postUserReq) throws BaseException {
         //중복
         if(userProvider.checkPhone(postUserReq.getPhone()) ==1){

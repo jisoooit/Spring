@@ -217,6 +217,16 @@ public class UserDao {
                 ),
                 getUserChatParams);
     }
+    /*물품에 관심누르기*/
+    public int createProductInterest(PostInterestReq postInterestReq){
+
+        String createProductInterestQuery = "insert into product_interest_user(user_id,product_id,status) VALUES (?,?,?)";
+        Object[] createProductInterestParams = new Object[]{postInterestReq.getUser_id(),postInterestReq.getProduct_id(),postInterestReq.getStatus()};
+        this.jdbcTemplate.update(createProductInterestQuery, createProductInterestParams);
+
+        String lastInserIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
+    }
 
     /*키워드 알림 등록*/
     public int createKeyWord(PostKeyWordReq postKeyWordReq){
@@ -228,7 +238,17 @@ public class UserDao {
         String lastInserIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
     }
+    /*비즈니스 단골하기*/
+    public int createBusinessRegular(PostRegularReq postRegularReq){
 
+        String createBusinessRegularQuery = "insert into business_regular_user(user_id,business_id,status,notification_status) VALUES (?,?,?,?)";
+        Object[] createBusinessRegularParams = new Object[]{postRegularReq.getUser_id(),postRegularReq.getBusiness_id(),
+            postRegularReq.getStatus(),postRegularReq.getNotification_status()};
+        this.jdbcTemplate.update(createBusinessRegularQuery, createBusinessRegularParams);
+
+        String lastInserIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
+    }
     /*회원 가입*/
     public int createUser(PostUserReq postUserReq){
 
@@ -249,6 +269,13 @@ public class UserDao {
                 checkPhoneParams);
     }
 
+    public int checkKeyWord(String keyword){
+        String checkPhoneQuery = "select exists(select phone from notification where keyword = ?)";
+        String checkPhoneParams = keyword;
+        return this.jdbcTemplate.queryForObject(checkPhoneQuery,
+                int.class,
+                checkPhoneParams);
+    }
 
     //여기까지
 

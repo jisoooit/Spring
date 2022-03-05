@@ -127,6 +127,14 @@ public class UserProvider {
         }
     }
 
+    /*키워드 등록할때*/
+    public int checkKeyWord(String keyword) throws BaseException{
+        try{
+            return userDao.checkKeyWord(keyword);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 //    public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
 //        User user = userDao.getPwd(postLoginReq);
 //        String password;
