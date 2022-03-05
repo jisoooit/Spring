@@ -37,6 +37,6 @@ public class TestController {
 //        app.log 와 error.log 는 날짜가 바뀌면 자동으로 *.gz 으로 압축 백업됨
         logger.error("ERROR Level 테스트");
 
-        return "Success Test1212";
+        return "Success Test!!!";
     }
 }
