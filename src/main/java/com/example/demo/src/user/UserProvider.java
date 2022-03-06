@@ -44,6 +44,9 @@ public class UserProvider {
 
 
     public List<GetUserRes> getUsersByPhone(String phone) throws BaseException{
+        if(checkPhone(phone) ==0){
+            throw new BaseException(REQUEST_ERROR);
+        }
         try{
             List<GetUserRes> getUsersRes = userDao.getUsersByPhone(phone);
             return getUsersRes;

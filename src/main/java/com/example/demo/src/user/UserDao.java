@@ -270,7 +270,7 @@ public class UserDao {
     }
 
     public int checkKeyWord(String keyword){
-        String checkPhoneQuery = "select exists(select phone from notification where keyword = ?)";
+        String checkPhoneQuery = "select exists(select keyword from notification where keyword = ?)";
         String checkPhoneParams = keyword;
         return this.jdbcTemplate.queryForObject(checkPhoneQuery,
                 int.class,

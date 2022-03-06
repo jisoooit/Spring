@@ -47,9 +47,9 @@ public class UserService {
     /*키워드알림등록*/
     public PostKeyWordRes createKeyWord(PostKeyWordReq postKeyWordReq) throws BaseException {
         //중복
-        if(userProvider.checkKeyWord(postKeyWordReq.getKeyword()) ==1){
-            throw new BaseException(POST_USERS_EXISTS_KEYWORD);
-        }
+//        if(userProvider.checkKeyWord(postKeyWordReq.getKeyword()) ==1){
+//            throw new BaseException(POST_USERS_EXISTS_KEYWORD);
+//        }
         try{
             int id = userDao.createKeyWord(postKeyWordReq);
             //jwt 발급.
