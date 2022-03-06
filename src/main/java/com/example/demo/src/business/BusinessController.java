@@ -108,6 +108,41 @@ public class BusinessController {
         }
     }
     /**
+     * 비즈니스 로그인*/
+    @ResponseBody
+    @PostMapping("/logIn")
+    public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
+        try{
+            // TODO: 로그인 값들에 대한 형식적인 validatin 처리해주셔야합니다!
+            // TODO: 유저의 status ex) 비활성화된 유저, 탈퇴한 유저 등을 관리해주고 있다면 해당 부분에 대한 validation 처리도 해주셔야합니다.
+            PostLoginRes postLoginRes = businessProvider.logIn(postLoginReq);
+            return new BaseResponse<>(postLoginRes);
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+    /**유저 정보 변경*/
+    @ResponseBody
+    @PatchMapping("/{id}")
+    public BaseResponse<String> modifyStoreName(@PathVariable("id") int id, @RequestBody Business business){
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(id != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            //같다면 유저네임 변경
+            PatchBusinessReq patchBusinessReq = new PatchBusinessReq(id,business.getStore_name());
+            businessService.modifyStoreName(patchBusinessReq);
+
+            String result = "";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+    /**
      * 동네 소식 글쓰기*/
     @ResponseBody
     @PostMapping("/news")

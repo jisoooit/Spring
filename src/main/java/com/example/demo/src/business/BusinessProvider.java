@@ -1,6 +1,7 @@
 package com.example.demo.src.business;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.secret.Secret;
+import com.example.demo.src.business.model.Business;
 import com.example.demo.src.business.model.GetBusiNewsRes;
 import com.example.demo.src.business.model.GetBusinessRes;
 import com.example.demo.src.product.model.GetSaleDetailRes;
@@ -76,5 +77,25 @@ public class BusinessProvider {
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+    /*로그인*/
+    public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
+        Business business = businessDao.getPwd(postLoginReq);
+        String password;
+        try {
+            password = new AES128(Secret.USER_INFO_PASSWORD_KEY).decrypt(business.getPassword());
+        } catch (Exception ignored) {
+            throw new BaseException(PASSWORD_DECRYPTION_ERROR);
+        }
+
+        if(postLoginReq.getPassword().equals(password)){
+            int userIdx = businessDao.getPwd(postLoginReq).getId();
+            String jwt = jwtService.createJwt(userIdx);
+            return new PostLoginRes(userIdx,jwt);
+        }
+        else{
+            throw new BaseException(FAILED_TO_LOGIN);
+        }
+
     }
 }

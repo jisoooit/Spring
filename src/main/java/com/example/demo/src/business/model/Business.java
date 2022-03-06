@@ -20,4 +20,5 @@ public class Business {
     private String status;
     private Timestamp create_at;
     private Timestamp update_at;
+    private String password;
 }

@@ -46,7 +46,8 @@ public class TownlifeService {
         try{
             int id = townlifeDao.createTownlife(postTownlifeReq);
             //jwt 발급.
-            String jwt = jwtService.createJwt(id);
+//            String jwt = jwtService.createJwt(id);
+            String jwt="";
             return new PostTownlifeRes(jwt,id);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
@@ -58,8 +59,10 @@ public class TownlifeService {
         try{
             int id = townlifeDao.createComment(postCommentReq);
             //jwt 발급.
-            String jwt = jwtService.createJwt(id);
+//            String jwt = jwtService.createJwt(id);
+            String jwt="";
             return new PostTownlifeRes(jwt,id);
+
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

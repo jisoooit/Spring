@@ -148,10 +148,10 @@ public class BusinessDao {
     /*회원가입*/
     public int createBusiness(PostBusinessReq postBusinessReq){
 
-        String createBusinessQuery = "insert into business(store_name,profile_img,type,detail_type,location_id,phone,introduction,status) VALUES (?,?,?,?,?,?,?,?)";
+        String createBusinessQuery = "insert into business(store_name,profile_img,type,detail_type,location_id,phone,introduction,status,password) VALUES (?,?,?,?,?,?,?,?,?)";
         Object[] createBusinessParams = new Object[]{postBusinessReq.getStore_name(),postBusinessReq.getProfile_img(),
             postBusinessReq.getType(),postBusinessReq.getDetail_type(),postBusinessReq.getLocation_id(),postBusinessReq.getPhone(),
-            postBusinessReq.getIntroduction(),postBusinessReq.getStatus()};
+            postBusinessReq.getIntroduction(),postBusinessReq.getStatus(),postBusinessReq.getPassword()};
 
         this.jdbcTemplate.update(createBusinessQuery, createBusinessParams);
        // this.jdbcTemplate.update(createBusiLocQuery, createBusiLocParams);
@@ -186,5 +186,37 @@ public class BusinessDao {
 
         String lastInserIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
+    }
+
+    /*로그인*/
+    public Business getPwd(PostLoginReq postLoginReq){
+        String getPwdQuery = "select * from business where phone = ?";
+        String getPwdParams = postLoginReq.getPhone();
+
+        return this.jdbcTemplate.queryForObject(getPwdQuery,
+                (rs,rowNum)-> new Business(
+                        rs.getInt("id"),
+                        rs.getString("store_name"),
+                        rs.getString("profile_img"),
+                        rs.getString("type"),
+                        rs.getString("detail_type"),
+                        rs.getInt("location_id"),
+                        rs.getString("phone"),
+                        rs.getString("introduction"),
+                        rs.getString("status"),
+                        rs.getTimestamp("create_at"),
+                        rs.getTimestamp("update_at"),
+                        rs.getString("password")
+                ),
+                getPwdParams
+        );
+
+    }
+
+    public int modifyStoreName(PatchBusinessReq patchBusinessReq){
+        String modifyUserNameQuery = "update business set store_name = ? where id = ? ";
+        Object[] modifyUserNameParams = new Object[]{patchBusinessReq.getStore_name(), patchBusinessReq.getId()};
+
+        return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
     }
 }

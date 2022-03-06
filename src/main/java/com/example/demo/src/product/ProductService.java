@@ -43,7 +43,8 @@ public class ProductService {
         try{
             int id = productDao.createProduct(postProductReq);
             //jwt 발급.
-            String jwt = jwtService.createJwt(id);
+            String jwt="";
+//            String jwt = jwtService.createJwt(id);
             return new PostProductRes(jwt,id);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);

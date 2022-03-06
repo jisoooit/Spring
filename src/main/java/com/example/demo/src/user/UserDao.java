@@ -252,8 +252,8 @@ public class UserDao {
     /*회원 가입*/
     public int createUser(PostUserReq postUserReq){
 
-        String createUserQuery = "insert into user(phone,nick,status) VALUES (?,?,?)";
-        Object[] createUserParams = new Object[]{postUserReq.getPhone(), postUserReq.getNick(),postUserReq.getStatus()};
+        String createUserQuery = "insert into user(phone,nick,status,password) VALUES (?,?,?,?)";
+        Object[] createUserParams = new Object[]{postUserReq.getPhone(), postUserReq.getNick(),postUserReq.getStatus(),postUserReq.getPassword()};
 
         this.jdbcTemplate.update(createUserQuery, createUserParams);
 
@@ -279,29 +279,34 @@ public class UserDao {
 
     //여기까지
 
-//    public int modifyUserName(PatchUserReq patchUserReq){
-//        String modifyUserNameQuery = "update UserInfo set userName = ? where userIdx = ? ";
-//        Object[] modifyUserNameParams = new Object[]{patchUserReq.getUserName(), patchUserReq.getUserIdx()};
-//
-//        return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
-//    }
-//
-//    public User getPwd(PostLoginReq postLoginReq){
-//        String getPwdQuery = "select userIdx, password,email,userName,ID from UserInfo where ID = ?";
-//        String getPwdParams = postLoginReq.getId();
-//
-//        return this.jdbcTemplate.queryForObject(getPwdQuery,
-//                (rs,rowNum)-> new User(
-//                        rs.getInt("userIdx"),
-//                        rs.getString("ID"),
-//                        rs.getString("userName"),
-//                        rs.getString("password"),
-//                        rs.getString("email")
-//                ),
-//                getPwdParams
-//                );
-//
-//    }
+    public int modifyUserName(PatchUserReq patchUserReq){
+        String modifyUserNameQuery = "update user set nick = ? where id = ? ";
+        Object[] modifyUserNameParams = new Object[]{patchUserReq.getNick(), patchUserReq.getId()};
+
+        return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
+    }
+
+    public User getPwd(PostLoginReq postLoginReq){
+        String getPwdQuery = "select * from user where phone = ?";
+        String getPwdParams = postLoginReq.getPhone();
+
+        return this.jdbcTemplate.queryForObject(getPwdQuery,
+                (rs,rowNum)-> new User(
+                        rs.getInt("id"),
+                        rs.getString("phone"),
+                        rs.getString("nick"),
+                        rs.getFloat("manner"),
+                        rs.getFloat("retrans_rate"),
+                        rs.getFloat("reponse_rate"),
+                        rs.getString("status"),
+                        rs.getTimestamp("created_at"),
+                        rs.getTimestamp("updated_at"),
+                        rs.getString("password")
+                ),
+                getPwdParams
+                );
+
+    }
 
 
 

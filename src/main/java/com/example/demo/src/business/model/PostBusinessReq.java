@@ -17,5 +17,6 @@ public class PostBusinessReq {
     private String phone;
     private String introduction;
     private String status;
+    private String password;
 
 }

@@ -15,7 +15,9 @@ public class PostUserReq {
 //      private Float manner;
 //      private Float retrans_rate;
 //      private Float reponse_rate;
+      private String password;
       private String status;
+
 //      private Timestamp created_at;
 //      private Timestamp updated_at;
 //    private String UserName;

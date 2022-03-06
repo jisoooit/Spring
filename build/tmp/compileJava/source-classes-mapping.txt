@@ -94,6 +94,8 @@ com/example/demo/src/user/model/GetUserLocRes.java
  com.example.demo.src.user.model.GetUserLocRes
 com/example/demo/src/user/UserController.java
  com.example.demo.src.user.UserController
+com/example/demo/src/business/model/PatchBusinessReq.java
+ com.example.demo.src.business.model.PatchBusinessReq
 com/example/demo/src/townlife/TownlifeService.java
  com.example.demo.src.townlife.TownlifeService
 com/example/demo/src/product/model/PostProductReq.java
