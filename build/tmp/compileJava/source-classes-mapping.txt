@@ -34,6 +34,8 @@ com/example/demo/src/business/model/PostBusiLocReq.java
  com.example.demo.src.business.model.PostBusiLocReq
 com/example/demo/src/product/ProductDao.java
  com.example.demo.src.product.ProductDao
+com/example/demo/src/user/KakaoService.java
+ com.example.demo.src.user.KakaoService
 com/example/demo/config/secret/Secret.java
  com.example.demo.config.secret.Secret
 com/example/demo/src/townlife/model/PostCommentReq.java
@@ -80,6 +82,8 @@ com/example/demo/src/user/model/PatchUserReq.java
  com.example.demo.src.user.model.PatchUserReq
 com/example/demo/src/WebSecurityConfig.java
  com.example.demo.src.WebSecurityConfig
+com/example/demo/src/user/KakaoController.java
+ com.example.demo.src.user.KakaoController
 com/example/demo/src/test/TestController.java
  com.example.demo.src.test.TestController
 com/example/demo/src/townlife/TownlifeController.java
