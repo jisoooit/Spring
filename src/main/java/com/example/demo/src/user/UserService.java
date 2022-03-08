@@ -2,6 +2,8 @@ package com.example.demo.src.user;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.secret.Secret;
+import com.example.demo.src.business.model.PostBusiLocReq;
+import com.example.demo.src.business.model.PostBusinessRes;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.AES128;
 import com.example.demo.utils.JwtService;
@@ -99,6 +101,29 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+    public PostLocationRes createLocation(PostLocationReq postLocationReq) throws BaseException {
+        //중복
+        try{
+//            int id = userDao.createLocation(postLocationReq);
+//            //jwt 발급.
+//            String jwt="";
+//            return new PostUserRes(jwt,id);
+            PostLocationRes postLocationRes=userDao.createLocation(postLocationReq);
+            return postLocationRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    public PostLocationRes createLocationSelect(PostLocSelectReq postLocSelectReq) throws BaseException {
+        //중복
+        try{
+            PostLocationRes postLocationRes=userDao.createLocationSelect(postLocSelectReq);
+            return postLocationRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 
     public void modifyUserName(PatchUserReq patchUserReq) throws BaseException {
         try{

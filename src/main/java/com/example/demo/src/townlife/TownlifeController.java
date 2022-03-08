@@ -1,10 +1,7 @@
 package com.example.demo.src.townlife;
 import com.example.demo.src.product.ProductProvider;
 import com.example.demo.src.product.ProductService;
-import com.example.demo.src.product.model.GetSaleDetailRes;
-import com.example.demo.src.product.model.GetSalePageRes;
-import com.example.demo.src.product.model.PostProductReq;
-import com.example.demo.src.product.model.PostProductRes;
+import com.example.demo.src.product.model.*;
 import com.example.demo.src.townlife.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,6 +105,28 @@ public class TownlifeController {
             PostTownlifeRes postTownlifeRes = townlifeService.createComment(postCommentReq);
             return new BaseResponse<>(postTownlifeRes);
         } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+    /**
+     * 동네생활글 수정*/
+    @ResponseBody
+    @PatchMapping("/{userid}")
+    public BaseResponse<String> modifyTownlife(@PathVariable("userid") int userid, @RequestBody Townlife townlife){
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userid != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            //같다면 유저네임 변경
+            PatchTownlifeReq patchTownlifeReq = new PatchTownlifeReq(townlife.getId(),townlife.getInterest_topic_id(),townlife.getContent());
+            townlifeService.modifyTownlife(patchTownlifeReq);
+
+            String result = userid+"의 동네생활글수정완료";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }

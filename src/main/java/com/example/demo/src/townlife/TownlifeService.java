@@ -3,8 +3,10 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.secret.Secret;
 import com.example.demo.src.product.ProductDao;
 import com.example.demo.src.product.ProductProvider;
+import com.example.demo.src.product.model.PatchProductReq;
 import com.example.demo.src.product.model.PostProductReq;
 import com.example.demo.src.product.model.PostProductRes;
+import com.example.demo.src.townlife.model.PatchTownlifeReq;
 import com.example.demo.src.townlife.model.PostCommentReq;
 import com.example.demo.src.townlife.model.PostTownlifeReq;
 import com.example.demo.src.townlife.model.PostTownlifeRes;
@@ -64,6 +66,17 @@ public class TownlifeService {
             return new PostTownlifeRes(jwt,id);
 
         } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    /*동네생활글 수정*/
+    public void modifyTownlife(PatchTownlifeReq PatchTownlifeReq) throws BaseException {
+        try{
+            int result = townlifeDao.modifyTownlife(PatchTownlifeReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_USERNAME);
+            }
+        } catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
     }

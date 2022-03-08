@@ -2,11 +2,9 @@ package com.example.demo.src.townlife;
 
 import com.example.demo.src.product.model.GetSaleDetailRes;
 import com.example.demo.src.product.model.GetSalePageRes;
+import com.example.demo.src.product.model.PatchProductReq;
 import com.example.demo.src.product.model.PostProductReq;
-import com.example.demo.src.townlife.model.GetLifeDetailRes;
-import com.example.demo.src.townlife.model.GetLifePageRes;
-import com.example.demo.src.townlife.model.PostCommentReq;
-import com.example.demo.src.townlife.model.PostTownlifeReq;
+import com.example.demo.src.townlife.model.*;
 import com.example.demo.src.user.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -170,5 +168,12 @@ public class TownlifeDao {
 
         String lastInserIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
+    }
+
+    /*동네생활글 수정*/
+    public int modifyTownlife(PatchTownlifeReq patchTownlifeReq){
+        String modifyUserNameQuery = "update townlife set interest_topic_id=?, content=? where id = ? ";
+        Object[] modifyUserNameParams = new Object[]{patchTownlifeReq.getInterest_topic_id(),patchTownlifeReq.getContent(),patchTownlifeReq.getId()};
+        return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
     }
 }

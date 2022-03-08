@@ -1,6 +1,8 @@
 package com.example.demo.src.business;
 import com.example.demo.src.business.model.*;
 import com.example.demo.src.product.model.GetSaleDetailRes;
+import com.example.demo.src.product.model.PatchProductReq;
+import com.example.demo.src.product.model.Product;
 import com.example.demo.src.user.UserProvider;
 import com.example.demo.src.user.UserService;
 import org.slf4j.Logger;
@@ -143,7 +145,7 @@ public class BusinessController {
         }
     }
     /**
-     * 동네 소식 글쓰기*/
+     * 비즈니스 소식 글쓰기*/
     @ResponseBody
     @PostMapping("/news")
     public BaseResponse<PostBusinessRes> createBusiNews(@RequestBody PostBusiNewsReq postBusiNewsReq) {
@@ -158,6 +160,30 @@ public class BusinessController {
             PostBusinessRes postBusinessRes = businessService.createBusiNews(postBusiNewsReq);
             return new BaseResponse<>(postBusinessRes);
         } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+    /**
+     * 비즈니스 소식 수정*/
+    @ResponseBody
+    @PatchMapping("/news/{bid}")
+    public BaseResponse<String> modifyBusinessNews(@PathVariable("bid") int bid, @RequestBody GetBusiNewsRes getBusiNewsRes){
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(bid != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            //같다면 유저네임 변경
+            System.out.println("id확인완료");
+            PatchBusiNewsReq PatchBusiNewsReq = new PatchBusiNewsReq(getBusiNewsRes.getNews_num(),getBusiNewsRes.getTitle(),
+                    getBusiNewsRes.getContent());
+            businessService.modifyBusinessNews(PatchBusiNewsReq);
+
+            String result = "수정완료";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }

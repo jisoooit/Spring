@@ -2,6 +2,7 @@ package com.example.demo.src.product;
 
 import com.example.demo.src.product.model.GetSaleDetailRes;
 import com.example.demo.src.product.model.GetSalePageRes;
+import com.example.demo.src.product.model.PatchProductReq;
 import com.example.demo.src.product.model.PostProductReq;
 import com.example.demo.src.user.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,6 +115,12 @@ public class ProductDao {
 
         String lastInserIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
+    }
+    /*물건 판매글 수정*/
+    public int modifyProduct(PatchProductReq patchProductReq){
+        String modifyUserNameQuery = "update product set category=?, title=?, content=?, price=? where id = ? ";
+        Object[] modifyUserNameParams = new Object[]{patchProductReq.getCategory(),patchProductReq.getTitle(),patchProductReq.getContent(),patchProductReq.getPrice(),patchProductReq.getId()};
+        return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
     }
 
 }

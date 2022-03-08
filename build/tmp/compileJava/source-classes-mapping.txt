@@ -22,8 +22,12 @@ com/example/demo/src/business/model/GetBusinessRes.java
  com.example.demo.src.business.model.GetBusinessRes
 com/example/demo/src/user/model/GetKeyWordRes.java
  com.example.demo.src.user.model.GetKeyWordRes
+com/example/demo/src/user/model/PostLocSelectReq.java
+ com.example.demo.src.user.model.PostLocSelectReq
 com/example/demo/src/business/model/PostBusinessReq.java
  com.example.demo.src.business.model.PostBusinessReq
+com/example/demo/src/townlife/model/PatchTownlifeReq.java
+ com.example.demo.src.townlife.model.PatchTownlifeReq
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
 com/example/demo/src/business/model/PostBusiNewsReq.java
@@ -60,18 +64,24 @@ com/example/demo/config/BaseException.java
  com.example.demo.config.BaseException
 com/example/demo/src/business/model/PostBusinessRes.java
  com.example.demo.src.business.model.PostBusinessRes
+com/example/demo/src/townlife/model/Townlife.java
+ com.example.demo.src.townlife.model.Townlife
 com/example/demo/src/user/model/GetUserChatRes.java
  com.example.demo.src.user.model.GetUserChatRes
 com/example/demo/src/product/ProductProvider.java
  com.example.demo.src.product.ProductProvider
 com/example/demo/src/user/model/PostUserReq.java
  com.example.demo.src.user.model.PostUserReq
+com/example/demo/src/user/model/PostLocationReq.java
+ com.example.demo.src.user.model.PostLocationReq
 com/example/demo/src/user/model/PostKeyWordReq.java
  com.example.demo.src.user.model.PostKeyWordReq
 com/example/demo/src/user/model/PostInterestReq.java
  com.example.demo.src.user.model.PostInterestReq
 com/example/demo/src/user/model/PostLoginRes.java
  com.example.demo.src.user.model.PostLoginRes
+com/example/demo/src/product/model/PatchProductReq.java
+ com.example.demo.src.product.model.PatchProductReq
 com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
 com/example/demo/src/user/model/GetUserCpnRes.java
@@ -106,6 +116,8 @@ com/example/demo/src/product/model/PostProductReq.java
  com.example.demo.src.product.model.PostProductReq
 com/example/demo/src/user/model/PostKeyWordRes.java
  com.example.demo.src.user.model.PostKeyWordRes
+com/example/demo/src/business/model/PatchBusiNewsReq.java
+ com.example.demo.src.business.model.PatchBusiNewsReq
 com/example/demo/src/user/model/GetInterestListRes.java
  com.example.demo.src.user.model.GetInterestListRes
 com/example/demo/src/user/model/User.java
@@ -124,3 +136,5 @@ com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
 com/example/demo/src/townlife/model/GetLifePageRes.java
  com.example.demo.src.townlife.model.GetLifePageRes
+com/example/demo/src/user/model/PostLocationRes.java
+ com.example.demo.src.user.model.PostLocationRes

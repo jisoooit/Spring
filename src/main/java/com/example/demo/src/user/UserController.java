@@ -229,7 +229,30 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+    @ResponseBody
+    @PostMapping("/location")
+    public BaseResponse<PostLocationRes> createLocation(@RequestBody PostLocationReq postLocationReq) {
+        // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
 
+        try{
+            PostLocationRes postLocationRes = userService.createLocation(postLocationReq);
+            return new BaseResponse<>(postLocationRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+    @ResponseBody
+    @PostMapping("/location/select")
+    public BaseResponse<PostLocationRes> createLocationSelect(@RequestBody PostLocSelectReq postLocSelectReq) {
+        // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
+
+        try{
+            PostLocationRes postLocationRes = userService.createLocationSelect(postLocSelectReq);
+            return new BaseResponse<>(postLocationRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
     /**
      * 로그인 API
@@ -275,6 +298,6 @@ public class UserController {
         }
     }
 
-    
+
 
 }

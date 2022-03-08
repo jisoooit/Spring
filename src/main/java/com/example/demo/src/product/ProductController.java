@@ -2,10 +2,7 @@ package com.example.demo.src.product;
 
 import com.example.demo.src.product.ProductProvider;
 import com.example.demo.src.product.ProductService;
-import com.example.demo.src.product.model.GetSaleDetailRes;
-import com.example.demo.src.product.model.GetSalePageRes;
-import com.example.demo.src.product.model.PostProductReq;
-import com.example.demo.src.product.model.PostProductRes;
+import com.example.demo.src.product.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.demo.config.BaseException;
@@ -86,6 +83,29 @@ public class ProductController {
             PostProductRes postProductRes = productService.createProduct(postProductReq);
             return new BaseResponse<>(postProductRes);
         } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 물건 판매글 수정*/
+    @ResponseBody
+    @PatchMapping("/{userid}")
+    public BaseResponse<String> modifyProduct(@PathVariable("userid") int userid, @RequestBody Product product){
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userid != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            //같다면 유저네임 변경
+            PatchProductReq patchProductReq = new PatchProductReq(product.getId(),product.getCategory(),product.getTitle(),product.getContent(),product.getPrice());
+            productService.modifyProduct(patchProductReq);
+
+            String result = "수정완료";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }

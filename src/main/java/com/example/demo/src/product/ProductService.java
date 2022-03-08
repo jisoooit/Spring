@@ -3,6 +3,7 @@ package com.example.demo.src.product;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.secret.Secret;
+import com.example.demo.src.product.model.PatchProductReq;
 import com.example.demo.src.product.model.PostProductReq;
 import com.example.demo.src.product.model.PostProductRes;
 import com.example.demo.src.user.UserDao;
@@ -47,6 +48,18 @@ public class ProductService {
 //            String jwt = jwtService.createJwt(id);
             return new PostProductRes(jwt,id);
         } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    /*물건 판매글 수정*/
+    public void modifyProduct(PatchProductReq patchProductReq) throws BaseException {
+        try{
+            int result = productDao.modifyProduct(patchProductReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_USERNAME);
+            }
+        } catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
     }

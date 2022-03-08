@@ -1,6 +1,7 @@
 package com.example.demo.src.business;
 import com.example.demo.src.business.model.*;
 import com.example.demo.src.product.model.GetSaleDetailRes;
+import com.example.demo.src.product.model.PatchProductReq;
 import com.example.demo.src.user.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -212,11 +213,17 @@ public class BusinessDao {
         );
 
     }
-
+    /*가게이름수정*/
     public int modifyStoreName(PatchBusinessReq patchBusinessReq){
-        String modifyUserNameQuery = "update business set store_name = ? where id = ? ";
-        Object[] modifyUserNameParams = new Object[]{patchBusinessReq.getStore_name(), patchBusinessReq.getId()};
+        String modifyStoreNameQuery = "update business set store_name = ? where id = ? ";
+        Object[] modifyStoreNameParams = new Object[]{patchBusinessReq.getStore_name(), patchBusinessReq.getId()};
 
-        return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
+        return this.jdbcTemplate.update(modifyStoreNameQuery,modifyStoreNameParams);
+    }
+    /*비즈니스 소식 수정*/
+    public int modifyBusinessNews(PatchBusiNewsReq patchBusiNewsReq){
+        String modifyBusinessNewsQuery = "update business_news set title=?, content=? where id = ? ";
+        Object[] modifyBusinessNewsParams = new Object[]{patchBusiNewsReq.getTitle(),patchBusiNewsReq.getContent(),patchBusiNewsReq.getId()};
+        return this.jdbcTemplate.update(modifyBusinessNewsQuery,modifyBusinessNewsParams);
     }
 }

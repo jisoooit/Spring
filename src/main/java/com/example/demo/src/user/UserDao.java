@@ -1,6 +1,7 @@
 package com.example.demo.src.user;
 
 
+import com.example.demo.src.business.model.PostBusiLocReq;
 import com.example.demo.src.product.model.GetSaleDetailRes;
 import com.example.demo.src.user.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -260,6 +261,51 @@ public class UserDao {
         String lastInserIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
     }
+    /*위치 등록*/
+    public PostLocationRes createLocation(PostLocationReq postLocationReq){
+
+        String createLocationQuery="insert into location(province, city, town, latitude,longitude,user_id,status,country)VALUES (?,?,?,?,?,?,?,?)";
+        Object[] createLocationParams = new Object[]{postLocationReq.getProvince(),postLocationReq.getCity(),postLocationReq.getTown(),
+            postLocationReq.getLatitude(),postLocationReq.getLongitude(),postLocationReq.getUserId(),postLocationReq.getStatus(),postLocationReq.getCountry()};
+
+        this.jdbcTemplate.update(createLocationQuery, createLocationParams);
+
+        String getLocationQuery="select * from location where id=?";
+        String lastInserIdQuery = "select last_insert_id()";
+        int getLocationParams=this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
+        return this.jdbcTemplate.queryForObject(getLocationQuery,
+                (rs, rowNum) -> new PostLocationRes(
+                        rs.getInt("id"),
+                        rs.getInt("user_id"),
+                        rs.getString("town")
+
+                ),
+                getLocationParams);
+    }
+    /*위치 선택*/
+    public PostLocationRes createLocationSelect(PostLocSelectReq postLocSelectReq){
+
+        String createLocationSelectQuery="insert into user_town(user_id, location_id, certified_status, status)VALUES (?,?,?,?)";
+        Object[] createLocationSelectParams = new Object[]{postLocSelectReq.getUser_id(),postLocSelectReq.getLocation_id(),
+            postLocSelectReq.getCertified_status(),postLocSelectReq.getStatus()};
+
+        this.jdbcTemplate.update(createLocationSelectQuery, createLocationSelectParams);
+
+        String getLocationSelectQuery="" +
+                "select * from location\n " +
+                "join user_town ut on location.id = ut.location_id\n" +
+                "where ut.id=?";
+        String lastInserIdQuery = "select last_insert_id()";
+        int getLocationSelectParams=this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
+        System.out.println(getLocationSelectParams);
+        return this.jdbcTemplate.queryForObject(getLocationSelectQuery,
+                (rs, rowNum) -> new PostLocationRes(
+                        rs.getInt("ut.id"),
+                        rs.getInt("ut.user_id"),
+                        rs.getString("town")
+                ),
+                getLocationSelectParams);
+    }
 
     public int checkPhone(String Phone){
         String checkPhoneQuery = "select exists(select phone from user where phone = ?)";
@@ -268,6 +314,7 @@ public class UserDao {
                 int.class,
                 checkPhoneParams);
     }
+
 
     public int checkKeyWord(String keyword){
         String checkPhoneQuery = "select exists(select keyword from notification where keyword = ?)";
@@ -282,7 +329,6 @@ public class UserDao {
     public int modifyUserName(PatchUserReq patchUserReq){
         String modifyUserNameQuery = "update user set nick = ? where id = ? ";
         Object[] modifyUserNameParams = new Object[]{patchUserReq.getNick(), patchUserReq.getId()};
-
         return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
     }
 

@@ -3,6 +3,7 @@ package com.example.demo.src.business;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.secret.Secret;
 import com.example.demo.src.business.model.*;
+import com.example.demo.src.product.model.PatchProductReq;
 import com.example.demo.src.user.UserDao;
 import com.example.demo.src.user.UserProvider;
 import com.example.demo.src.user.model.*;
@@ -92,6 +93,18 @@ public class BusinessService {
     public void modifyStoreName(PatchBusinessReq patchBusinessReq) throws BaseException {
         try{
             int result = businessDao.modifyStoreName(patchBusinessReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_USERNAME);
+            }
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    /*비즈니스 소식 수정*/
+    /*물건 판매글 수정*/
+    public void modifyBusinessNews(PatchBusiNewsReq patchBusiNewsReq) throws BaseException {
+        try{
+            int result = businessDao.modifyBusinessNews(patchBusiNewsReq);
             if(result == 0){
                 throw new BaseException(MODIFY_FAIL_USERNAME);
             }
