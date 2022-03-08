@@ -181,7 +181,7 @@ public class BusinessController {
                     getBusiNewsRes.getContent());
             businessService.modifyBusinessNews(PatchBusiNewsReq);
 
-            String result = "수정완료";
+            String result = "비즈니스소식수정완료";
             return new BaseResponse<>(result);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
