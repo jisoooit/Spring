@@ -14,7 +14,7 @@ public class PostProductReq {
     private String category;
     private String title;
     private String content;
-    private int price;
+    private Integer price;
     private int status;
     private int sale_status;
     private int again_status;

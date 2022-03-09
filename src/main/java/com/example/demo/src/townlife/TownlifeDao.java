@@ -176,4 +176,13 @@ public class TownlifeDao {
         Object[] modifyUserNameParams = new Object[]{patchTownlifeReq.getInterest_topic_id(),patchTownlifeReq.getContent(),patchTownlifeReq.getId()};
         return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
     }
+
+    /*댓글달글 존재하는지 확인*/
+    public int checkTownlife(long tid){
+        String checkTownlifeQuery = "select exists(select * from townlife where id = ? and status=1)";
+        long checkTownlifeParams = tid;
+        return this.jdbcTemplate.queryForObject(checkTownlifeQuery,
+                int.class,
+                checkTownlifeParams);
+    }
 }

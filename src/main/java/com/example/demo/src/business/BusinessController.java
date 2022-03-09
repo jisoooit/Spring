@@ -160,6 +160,7 @@ public class BusinessController {
         if(postBusiNewsReq.getContent() == null){
             return new BaseResponse<>(POST_PRODUCT_EMPTY_CONTENT);
         }
+
         try{
             PostBusinessRes postBusinessRes = businessService.createBusiNews(postBusiNewsReq);
             return new BaseResponse<>(postBusinessRes);
@@ -180,7 +181,7 @@ public class BusinessController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             //같다면 유저네임 변경
-            System.out.println("id확인완료");
+
             PatchBusiNewsReq PatchBusiNewsReq = new PatchBusiNewsReq(getBusiNewsRes.getNews_num(),getBusiNewsRes.getTitle(),
                     getBusiNewsRes.getContent());
             businessService.modifyBusinessNews(PatchBusiNewsReq);

@@ -14,7 +14,7 @@ import java.util.List;
 
 
 import static com.example.demo.config.BaseResponseStatus.*;
-import static com.example.demo.utils.ValidationRegex.isRegexEmail;
+import static com.example.demo.utils.ValidationRegex.*;
 
 @RestController
 @RequestMapping("/app/users")
@@ -215,13 +215,23 @@ public class UserController {
         if(postUserReq.getPhone() == null){
             return new BaseResponse<>(POST_USERS_EMPTY_PHONE);
         }
+        if(!isRegexPhone(postUserReq.getPhone())){
+            return new BaseResponse<>(POST_USERS_INVALID_PHONE);
+        }
         if(postUserReq.getNick()==null){
             return new BaseResponse<>(POST_USERS_EMPTY_NICK);
         }
-        //이메일 정규표현
+        if(postUserReq.getPassword()==null){
+            return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
+        }
+        if(!isRegexPassword(postUserReq.getPassword())){
+            return new BaseResponse<>(POST_USERS_INVALID_PASSWORD);
+        }
+//        //이메일 정규표현
 //        if(!isRegexEmail(postUserReq.getPhone())){
 //            return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
 //        }
+
         try{
             PostUserRes postUserRes = userService.createUser(postUserReq);
             return new BaseResponse<>(postUserRes);
@@ -295,7 +305,7 @@ public class UserController {
             PatchUserReq patchUserReq = new PatchUserReq(id,user.getNick());
             userService.modifyUserName(patchUserReq);
 
-            String result = "";
+            String result = "수정완료";
             return new BaseResponse<>(result);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));

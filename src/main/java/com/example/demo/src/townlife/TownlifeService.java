@@ -58,6 +58,9 @@ public class TownlifeService {
 
     /*동네생활글 댓글 등록*/
     public PostTownlifeRes createComment(PostCommentReq postCommentReq) throws BaseException {
+        if(townlifeProvider.checkTownlife(postCommentReq.getTownlife_id()) ==0){
+            throw new BaseException(POST_TOWNLIFE_EMPTY_TOWNLIFE);
+        }
         try{
             int id = townlifeDao.createComment(postCommentReq);
             //jwt 발급.

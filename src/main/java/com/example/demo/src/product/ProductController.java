@@ -79,6 +79,12 @@ public class ProductController {
         if(postProductReq.getContent() == null){
             return new BaseResponse<>(POST_PRODUCT_EMPTY_CONTENT);
         }
+        if(postProductReq.getPrice()==null){
+            return new BaseResponse<>(POST_PRODUCT_EMPTY_PRICE);
+        }
+        if(postProductReq.getCategory()==null){
+            return new BaseResponse<>(POST_PRODUCT_EMPTY_CATEGORY);
+        }
         try{
             PostProductRes postProductRes = productService.createProduct(postProductReq);
             return new BaseResponse<>(postProductRes);

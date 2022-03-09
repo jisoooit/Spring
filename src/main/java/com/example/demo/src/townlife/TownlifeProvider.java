@@ -63,4 +63,13 @@ public class TownlifeProvider {
         }
     }
 
+    /*댓글달때 글이 존재하는지 검사*/
+    public int checkTownlife(long tid) throws BaseException{
+        try{
+            return townlifeDao.checkTownlife(tid);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }

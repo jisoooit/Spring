@@ -44,9 +44,14 @@ public enum BaseResponseStatus {
     //product
     POST_PRODUCT_EMPTY_TITLE(false, 2025, "제목을 입력해주세요"),
     POST_PRODUCT_EMPTY_CONTENT(false, 2026, "내용을 입력해주세요"),
+    POST_PRODUCT_EMPTY_PRICE(false, 2030, "가격을 입력해주세요"),
+    POST_PRODUCT_EMPTY_CATEGORY(false, 2031, "카테고리를 입력해주세요"),
+    POST_TOWNLIFE_EMPTY_TOPIC(false,2040,"토픽을 입력해주세요"),
+    POST_TOWNLIFE_EMPTY_TOWNLIFE(false,2041,"없는 동네생활 게시글 입니다."),
 
     POST_USERS_EXISTS_KEYWORD(false, 2027, "중복된 키워드 입니다."),
     POST_USERS_EMPTY_PASSWORD(false,2028,"비밀번호를 입력해주세요"),
+    POST_USERS_INVALID_PASSWORD(false,2028,"비밀번호 형식을 확인해주세요"),
     /**
      * 3000 : Response 오류
      */

@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PostTownlifeReq {
     private int user_id;
-    private int interest_topic_id;
+    private Integer interest_topic_id;
     private String content;
     private int status;
 }
