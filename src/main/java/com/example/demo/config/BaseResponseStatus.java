@@ -46,7 +46,7 @@ public enum BaseResponseStatus {
     POST_PRODUCT_EMPTY_CONTENT(false, 2026, "내용을 입력해주세요"),
 
     POST_USERS_EXISTS_KEYWORD(false, 2027, "중복된 키워드 입니다."),
-
+    POST_USERS_EMPTY_PASSWORD(false,2028,"비밀번호를 입력해주세요"),
     /**
      * 3000 : Response 오류
      */

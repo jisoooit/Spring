@@ -232,7 +232,6 @@ public class UserController {
     @ResponseBody
     @PostMapping("/location")
     public BaseResponse<PostLocationRes> createLocation(@RequestBody PostLocationReq postLocationReq) {
-        // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
 
         try{
             PostLocationRes postLocationRes = userService.createLocation(postLocationReq);
@@ -244,7 +243,6 @@ public class UserController {
     @ResponseBody
     @PostMapping("/location/select")
     public BaseResponse<PostLocationRes> createLocationSelect(@RequestBody PostLocSelectReq postLocSelectReq) {
-        // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
 
         try{
             PostLocationRes postLocationRes = userService.createLocationSelect(postLocSelectReq);
@@ -265,6 +263,12 @@ public class UserController {
         try{
             // TODO: 로그인 값들에 대한 형식적인 validatin 처리해주셔야합니다!
             // TODO: 유저의 status ex) 비활성화된 유저, 탈퇴한 유저 등을 관리해주고 있다면 해당 부분에 대한 validation 처리도 해주셔야합니다.
+            if(postLoginReq.getPhone() == null){
+                return new BaseResponse<>(POST_USERS_EMPTY_PHONE);
+            }
+            if(postLoginReq.getPassword() == null){
+                return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
+            }
             PostLoginRes postLoginRes = userProvider.logIn(postLoginReq);
             return new BaseResponse<>(postLoginRes);
         } catch (BaseException exception){

@@ -10,9 +10,9 @@ import java.sql.Timestamp;
 @Setter
 @AllArgsConstructor
 public class GetUserChatRes {
-    private long roomNum;
-    private String roomImg;
-    private String lastMessage;
-    private Timestamp timestamp;
-    private String roomName;
+    private long room_num;
+    private String profile_img;
+    private String content;
+    private Timestamp create_at;
+    private String nick;
 }

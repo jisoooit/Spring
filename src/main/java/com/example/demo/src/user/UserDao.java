@@ -203,7 +203,7 @@ public class UserDao {
                 "                then seller_id\n" +
                 "           end as other\n" +
                 "    from chat_room\n" +
-                "    where seller_id = ? || buyer_id= ? )profile #내(1)가 들어있는 채팅방레코드 다 찾기)\n" +
+                "    where seller_id = ? || buyer_id=? ) as profile #내(1)가 들어있는 채팅방레코드 다 찾기)\n" +
                 "on last.chat_room_id=profile.room_num\n" +
                 "join user # 상대의 정보\n" +
                 "on user.id=profile.other;";
@@ -216,7 +216,8 @@ public class UserDao {
                         rs.getTimestamp("create_at"),
                         rs.getString("nick")
                 ),
-                getUserChatParams);
+                getUserChatParams,getUserChatParams,getUserChatParams,getUserChatParams);
+
     }
     /*물품에 관심누르기*/
     public int createProductInterest(PostInterestReq postInterestReq){
