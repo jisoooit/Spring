@@ -18,7 +18,7 @@ import java.util.List;
 
 
 import static com.example.demo.config.BaseResponseStatus.*;
-import static com.example.demo.utils.ValidationRegex.isRegexEmail;
+import static com.example.demo.utils.ValidationRegex.*;
 
 @RestController
 @RequestMapping("/app/business")
@@ -78,9 +78,6 @@ public class BusinessController {
     @PostMapping("/profile")
     public BaseResponse<PostBusinessRes> createBusiness(@RequestBody PostBusinessReq postBusinessReq) {
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
-        if(postBusinessReq.getPhone() == null){
-            return new BaseResponse<>(POST_USERS_EMPTY_PHONE);
-        }
         if(postBusinessReq.getStore_name() == null){
             return new BaseResponse<>(POST_BUSINESS_EMPTY_STORE);
         }
@@ -89,6 +86,18 @@ public class BusinessController {
         }
         if(postBusinessReq.getDetail_type() == null){
             return new BaseResponse<>(POST_BUSINESS_EMPTY_DETAIL_TYPE);
+        }
+        if(postBusinessReq.getPhone() == null){
+            return new BaseResponse<>(POST_USERS_EMPTY_PHONE);
+        }
+        if(!isRegexPhone(postBusinessReq.getPhone())){
+            return new BaseResponse<>(POST_USERS_INVALID_PHONE);
+        }
+        if(postBusinessReq.getPassword()==null){
+            return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
+        }
+        if(!isRegexPassword(postBusinessReq.getPassword())){
+            return new BaseResponse<>(POST_USERS_INVALID_PASSWORD);
         }
         try{
             PostBusinessRes postBusinessRes = businessService.createBusiness(postBusinessReq);

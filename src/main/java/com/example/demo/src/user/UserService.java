@@ -48,13 +48,15 @@ public class UserService {
         }
     }
     /*키워드알림등록*/
-    public PostKeyWordRes createKeyWord(PostKeyWordReq postKeyWordReq) throws BaseException {
+    public PostKeyWordRes createKeyWord(PostKeyWordReq postKeyWordReq,int userIdxByJwt) throws BaseException {
         //중복
 //        if(userProvider.checkKeyWord(postKeyWordReq.getKeyword()) ==1){
 //            throw new BaseException(POST_USERS_EXISTS_KEYWORD);
 //        }
         try{
-            int id = userDao.createKeyWord(postKeyWordReq);
+//            int userIdxByJwt = jwtService.getUserIdx();
+//            System.out.println(userIdxByJwt);
+            int id = userDao.createKeyWord(postKeyWordReq,userIdxByJwt);
             //jwt 발급.
 //            String jwt = jwtService.createJwt(id);
             String jwt="";

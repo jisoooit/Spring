@@ -133,13 +133,17 @@ public class UserProvider {
     /*키워드 등록할때*/
     public int checkKeyWord(String keyword) throws BaseException{
         try{
+
             return userDao.checkKeyWord(keyword);
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
     }
     public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
-        User user = userDao.getPwd(postLoginReq);
+        if(userDao.checkPhone(postLoginReq.getPhone())==0){
+            throw new BaseException(FAILED_TO_LOGIN);
+        }
+        User user = userDao.getUser(postLoginReq);
         String password;
         try {
             password = new AES128(Secret.USER_INFO_PASSWORD_KEY).decrypt(user.getPassword());
@@ -148,7 +152,7 @@ public class UserProvider {
         }
 
         if(postLoginReq.getPassword().equals(password)){
-            int userIdx = userDao.getPwd(postLoginReq).getId();
+            int userIdx = userDao.getUser(postLoginReq).getId();
             String jwt = jwtService.createJwt(userIdx);
             return new PostLoginRes(userIdx,jwt);
         }

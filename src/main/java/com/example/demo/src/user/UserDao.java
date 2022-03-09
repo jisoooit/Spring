@@ -7,7 +7,6 @@ import com.example.demo.src.user.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import javax.sql.DataSource;
 import java.util.List;
 
@@ -231,10 +230,10 @@ public class UserDao {
     }
 
     /*키워드 알림 등록*/
-    public int createKeyWord(PostKeyWordReq postKeyWordReq){
+    public int createKeyWord(PostKeyWordReq postKeyWordReq,int userIdxByJwt){
 
         String createKeyWordQuery = "insert into notification(user_id,keyword,location_id,status) VALUES (?,?,?,?)";
-        Object[] createKeyWordParams = new Object[]{postKeyWordReq.getUser_id(),postKeyWordReq.getKeyword(),postKeyWordReq.getLocation_id(),postKeyWordReq.getStatus()};
+        Object[] createKeyWordParams = new Object[]{userIdxByJwt,postKeyWordReq.getKeyword(),postKeyWordReq.getLocation_id(),postKeyWordReq.getStatus()};
         this.jdbcTemplate.update(createKeyWordQuery, createKeyWordParams);
 
         String lastInserIdQuery = "select last_insert_id()";
@@ -333,7 +332,7 @@ public class UserDao {
         return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
     }
 
-    public User getPwd(PostLoginReq postLoginReq){
+    public User getUser(PostLoginReq postLoginReq){
         String getPwdQuery = "select * from user where phone = ?";
         String getPwdParams = postLoginReq.getPhone();
 
@@ -355,6 +354,13 @@ public class UserDao {
 
     }
 
-
+//    /*유저가 db에 존재하는지 확인*/
+//    public int checkUser(int id){
+//        String checkPhoneQuery = "select exists(select * from user where id = ?)";
+//        int checkPhoneParams = id;
+//        return this.jdbcTemplate.queryForObject(checkPhoneQuery,
+//                int.class,
+//                checkPhoneParams);
+//    }
 
 }

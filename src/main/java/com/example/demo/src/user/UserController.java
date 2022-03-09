@@ -170,7 +170,8 @@ public class UserController {
     public BaseResponse<PostKeyWordRes> createKeyWord(@RequestBody PostKeyWordReq postKeyWordReq) {
 
         try{
-            PostKeyWordRes postKeyWordRes = userService.createKeyWord(postKeyWordReq);
+            int userIdxByJwt = jwtService.getUserIdx();
+            PostKeyWordRes postKeyWordRes = userService.createKeyWord(postKeyWordReq,userIdxByJwt);
             return new BaseResponse<>(postKeyWordRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -244,6 +245,7 @@ public class UserController {
     public BaseResponse<PostLocationRes> createLocation(@RequestBody PostLocationReq postLocationReq) {
 
         try{
+
             PostLocationRes postLocationRes = userService.createLocation(postLocationReq);
             return new BaseResponse<>(postLocationRes);
         } catch(BaseException exception){
@@ -276,8 +278,14 @@ public class UserController {
             if(postLoginReq.getPhone() == null){
                 return new BaseResponse<>(POST_USERS_EMPTY_PHONE);
             }
+            if(!isRegexPhone(postLoginReq.getPhone())){
+                return new BaseResponse<>(POST_USERS_INVALID_PHONE);
+            }
             if(postLoginReq.getPassword() == null){
                 return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
+            }
+            if(!isRegexPassword(postLoginReq.getPassword())){
+                return new BaseResponse<>(POST_USERS_INVALID_PASSWORD);
             }
             PostLoginRes postLoginRes = userProvider.logIn(postLoginReq);
             return new BaseResponse<>(postLoginRes);
