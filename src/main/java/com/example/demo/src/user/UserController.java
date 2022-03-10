@@ -70,7 +70,8 @@ public class UserController {
     public BaseResponse<GetUserRes> getUser(@PathVariable("id") int id) {
         // Get Users
         try{
-            GetUserRes getUserRes = userProvider.getUser(id);
+            int userIdxByJwt = jwtService.getUserIdx();
+            GetUserRes getUserRes = userProvider.getUser(userIdxByJwt);
             return new BaseResponse<>(getUserRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -104,7 +105,8 @@ public class UserController {
                 return new BaseResponse<>(getUserLocRes);
             }
             // Get Users
-            List<GetUserLocRes> getUserLocRes = userProvider.getUserLocation(id);
+            int userIdxByJwt = jwtService.getUserIdx();
+            List<GetUserLocRes> getUserLocRes = userProvider.getUserLocation(userIdxByJwt);
             return new BaseResponse<>(getUserLocRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -114,11 +116,12 @@ public class UserController {
     /**
      * 유저별 상품 관심 목록*/
     @ResponseBody
-    @GetMapping("/interest_list/{id}") // (GET) 127.0.0.1:9000/app/users/interest_list/:id
-    public BaseResponse<List<GetInterestListRes>> getInterestList(@PathVariable("id") int id) {
+    @GetMapping("/interest_list") // (GET) 127.0.0.1:9000/app/users/interest_list/:id
+    public BaseResponse<List<GetInterestListRes>> getInterestList() {
         // Get Users
         try{
-            List<GetInterestListRes> getInterestListRes = userProvider.getInterestList(id);
+            int userIdxByJwt = jwtService.getUserIdx();
+            List<GetInterestListRes> getInterestListRes = userProvider.getInterestList(userIdxByJwt);
             return new BaseResponse<>(getInterestListRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -129,10 +132,11 @@ public class UserController {
      * 유저별 받은 쿠폰함*/
     @ResponseBody
     @GetMapping("/couponbox/{id}") // (GET) 127.0.0.1:9000/app/users/
-    public BaseResponse<List<GetUserCpnRes>> getCouponBox(@PathVariable("id") int id) {
+    public BaseResponse<List<GetUserCpnRes>> getCouponBox() {
         // Get Users
         try{
-            List<GetUserCpnRes> getUserCpnRes = userProvider.getCouponBox(id);
+            int userIdxByJwt = jwtService.getUserIdx();
+            List<GetUserCpnRes> getUserCpnRes = userProvider.getCouponBox(userIdxByJwt);
             return new BaseResponse<>(getUserCpnRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -142,9 +146,10 @@ public class UserController {
      * 유저별 등록 키워드*/
     @ResponseBody
     @GetMapping("/keyword/{id}") // (GET) 127.0.0.1:9000/app/users/
-    public BaseResponse<List<GetKeyWordRes>> getKeyWord(@PathVariable("id") int id) {
+    public BaseResponse<List<GetKeyWordRes>> getKeyWord() {
         try{
-            List<GetKeyWordRes> getKeyWordRes = userProvider.getKeyWord(id);
+            int userIdxByJwt = jwtService.getUserIdx();
+            List<GetKeyWordRes> getKeyWordRes = userProvider.getKeyWord(userIdxByJwt);
             return new BaseResponse<>(getKeyWordRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -154,9 +159,10 @@ public class UserController {
      * 유저별 채팅방 목록 - 왜 안되는건지 모르겠네 ㅋ*/
     @ResponseBody
     @GetMapping("/chat/{id}") // (GET) 127.0.0.1:9000/app/users
-    public BaseResponse<List<GetUserChatRes>> getUserChat(@PathVariable("id") int id) {
+    public BaseResponse<List<GetUserChatRes>> getUserChat() {
         try{
-            List<GetUserChatRes> getUserChatRes = userProvider.getUserChat(id);
+            int userIdxByJwt = jwtService.getUserIdx();
+            List<GetUserChatRes> getUserChatRes = userProvider.getUserChat(userIdxByJwt);
             return new BaseResponse<>(getUserChatRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -185,7 +191,8 @@ public class UserController {
     public BaseResponse<PostUserRes> createProductInterest(@RequestBody PostInterestReq postInterestReq) {
 
         try{
-            PostUserRes postUserRes = userService.createProductInterest(postInterestReq);
+            int userIdxByJwt = jwtService.getUserIdx();
+            PostUserRes postUserRes = userService.createProductInterest(postInterestReq,userIdxByJwt);
             return new BaseResponse<>(postUserRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -197,7 +204,8 @@ public class UserController {
     @PostMapping("/regular")
     public BaseResponse<PostUserRes> createBusinessRegular(@RequestBody PostRegularReq postRegularReq) {
         try{
-            PostUserRes postUserRes = userService.createBusinessRegular(postRegularReq);
+            int userIdxByJwt = jwtService.getUserIdx();
+            PostUserRes postUserRes = userService.createBusinessRegular(postRegularReq,userIdxByJwt);
             return new BaseResponse<>(postUserRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -245,8 +253,8 @@ public class UserController {
     public BaseResponse<PostLocationRes> createLocation(@RequestBody PostLocationReq postLocationReq) {
 
         try{
-
-            PostLocationRes postLocationRes = userService.createLocation(postLocationReq);
+            int userIdxByJwt = jwtService.getUserIdx();
+            PostLocationRes postLocationRes = userService.createLocation(postLocationReq,userIdxByJwt);
             return new BaseResponse<>(postLocationRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -257,7 +265,8 @@ public class UserController {
     public BaseResponse<PostLocationRes> createLocationSelect(@RequestBody PostLocSelectReq postLocSelectReq) {
 
         try{
-            PostLocationRes postLocationRes = userService.createLocationSelect(postLocSelectReq);
+            int userIdxByJwt = jwtService.getUserIdx();
+            PostLocationRes postLocationRes = userService.createLocationSelect(postLocSelectReq,userIdxByJwt);
             return new BaseResponse<>(postLocationRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));

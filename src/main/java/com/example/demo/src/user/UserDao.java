@@ -219,10 +219,10 @@ public class UserDao {
 
     }
     /*물품에 관심누르기*/
-    public int createProductInterest(PostInterestReq postInterestReq){
+    public int createProductInterest(PostInterestReq postInterestReq,int userIdxByJwt){
 
         String createProductInterestQuery = "insert into product_interest_user(user_id,product_id,status) VALUES (?,?,?)";
-        Object[] createProductInterestParams = new Object[]{postInterestReq.getUser_id(),postInterestReq.getProduct_id(),postInterestReq.getStatus()};
+        Object[] createProductInterestParams = new Object[]{userIdxByJwt,postInterestReq.getProduct_id(),postInterestReq.getStatus()};
         this.jdbcTemplate.update(createProductInterestQuery, createProductInterestParams);
 
         String lastInserIdQuery = "select last_insert_id()";
@@ -240,10 +240,10 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
     }
     /*비즈니스 단골하기*/
-    public int createBusinessRegular(PostRegularReq postRegularReq){
+    public int createBusinessRegular(PostRegularReq postRegularReq, int userIdxByJwt){
 
         String createBusinessRegularQuery = "insert into business_regular_user(user_id,business_id,status,notification_status) VALUES (?,?,?,?)";
-        Object[] createBusinessRegularParams = new Object[]{postRegularReq.getUser_id(),postRegularReq.getBusiness_id(),
+        Object[] createBusinessRegularParams = new Object[]{userIdxByJwt,postRegularReq.getBusiness_id(),
             postRegularReq.getStatus(),postRegularReq.getNotification_status()};
         this.jdbcTemplate.update(createBusinessRegularQuery, createBusinessRegularParams);
 
@@ -262,11 +262,11 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
     }
     /*위치 등록*/
-    public PostLocationRes createLocation(PostLocationReq postLocationReq){
+    public PostLocationRes createLocation(PostLocationReq postLocationReq,int userIdxByJwt){
 
         String createLocationQuery="insert into location(province, city, town, latitude,longitude,user_id,status,country)VALUES (?,?,?,?,?,?,?,?)";
         Object[] createLocationParams = new Object[]{postLocationReq.getProvince(),postLocationReq.getCity(),postLocationReq.getTown(),
-            postLocationReq.getLatitude(),postLocationReq.getLongitude(),postLocationReq.getUserId(),postLocationReq.getStatus(),postLocationReq.getCountry()};
+            postLocationReq.getLatitude(),postLocationReq.getLongitude(),userIdxByJwt,postLocationReq.getStatus(),postLocationReq.getCountry()};
 
         this.jdbcTemplate.update(createLocationQuery, createLocationParams);
 
@@ -283,10 +283,10 @@ public class UserDao {
                 getLocationParams);
     }
     /*위치 선택*/
-    public PostLocationRes createLocationSelect(PostLocSelectReq postLocSelectReq){
+    public PostLocationRes createLocationSelect(PostLocSelectReq postLocSelectReq,int userIdxByJwt){
 
         String createLocationSelectQuery="insert into user_town(user_id, location_id, certified_status, status)VALUES (?,?,?,?)";
-        Object[] createLocationSelectParams = new Object[]{postLocSelectReq.getUser_id(),postLocSelectReq.getLocation_id(),
+        Object[] createLocationSelectParams = new Object[]{userIdxByJwt,postLocSelectReq.getLocation_id(),
             postLocSelectReq.getCertified_status(),postLocSelectReq.getStatus()};
 
         this.jdbcTemplate.update(createLocationSelectQuery, createLocationSelectParams);

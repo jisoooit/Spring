@@ -35,10 +35,10 @@ public class UserService {
         this.jwtService = jwtService;
     }
     /*물품에 관심 누르기*/
-    public PostUserRes createProductInterest(PostInterestReq postInterestReq) throws BaseException {
+    public PostUserRes createProductInterest(PostInterestReq postInterestReq,int userIdxByJwt) throws BaseException {
         //중복
         try{
-            int id = userDao.createProductInterest(postInterestReq);
+            int id = userDao.createProductInterest(postInterestReq,userIdxByJwt);
             //jwt 발급.
             //String jwt = jwtService.createJwt(id);
             String jwt="";
@@ -66,10 +66,10 @@ public class UserService {
         }
     }
     /*비즈니스 단골하기*/
-    public PostUserRes createBusinessRegular(PostRegularReq PostRegularReq) throws BaseException {
+    public PostUserRes createBusinessRegular(PostRegularReq PostRegularReq,int userIdxByJwt) throws BaseException {
         //중복
         try{
-            int id = userDao.createBusinessRegular(PostRegularReq);
+            int id = userDao.createBusinessRegular(PostRegularReq,userIdxByJwt);
             //jwt 발급.
 //            String jwt = jwtService.createJwt(id);
             String jwt="";
@@ -103,23 +103,23 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-    public PostLocationRes createLocation(PostLocationReq postLocationReq) throws BaseException {
+    public PostLocationRes createLocation(PostLocationReq postLocationReq,int userIdxByJwt) throws BaseException {
         //중복
         try{
 //            int id = userDao.createLocation(postLocationReq);
 //            //jwt 발급.
 //            String jwt="";
 //            return new PostUserRes(jwt,id);
-            PostLocationRes postLocationRes=userDao.createLocation(postLocationReq);
+            PostLocationRes postLocationRes=userDao.createLocation(postLocationReq,userIdxByJwt);
             return postLocationRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-    public PostLocationRes createLocationSelect(PostLocSelectReq postLocSelectReq) throws BaseException {
+    public PostLocationRes createLocationSelect(PostLocSelectReq postLocSelectReq,int userIdxByJwt) throws BaseException {
         //중복
         try{
-            PostLocationRes postLocationRes=userDao.createLocationSelect(postLocSelectReq);
+            PostLocationRes postLocationRes=userDao.createLocationSelect(postLocSelectReq,userIdxByJwt);
             return postLocationRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
