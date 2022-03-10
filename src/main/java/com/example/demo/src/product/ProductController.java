@@ -73,20 +73,21 @@ public class ProductController {
     @PostMapping("")
     public BaseResponse<PostProductRes> createProduct(@RequestBody PostProductReq postProductReq) {
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
-        if(postProductReq.getTitle() == null){
-            return new BaseResponse<>(POST_PRODUCT_EMPTY_TITLE);
-        }
-        if(postProductReq.getContent() == null){
-            return new BaseResponse<>(POST_PRODUCT_EMPTY_CONTENT);
-        }
-        if(postProductReq.getPrice()==null){
-            return new BaseResponse<>(POST_PRODUCT_EMPTY_PRICE);
-        }
-        if(postProductReq.getCategory()==null){
-            return new BaseResponse<>(POST_PRODUCT_EMPTY_CATEGORY);
-        }
         try{
-            PostProductRes postProductRes = productService.createProduct(postProductReq);
+            int userIdxByJwt = jwtService.getUserIdx();
+            if(postProductReq.getTitle() == null){
+                return new BaseResponse<>(POST_PRODUCT_EMPTY_TITLE);
+            }
+            if(postProductReq.getContent() == null){
+                return new BaseResponse<>(POST_PRODUCT_EMPTY_CONTENT);
+            }
+            if(postProductReq.getPrice()==null){
+                return new BaseResponse<>(POST_PRODUCT_EMPTY_PRICE);
+            }
+            if(postProductReq.getCategory()==null){
+                return new BaseResponse<>(POST_PRODUCT_EMPTY_CATEGORY);
+            }
+            PostProductRes postProductRes = productService.createProduct(postProductReq,userIdxByJwt);
             return new BaseResponse<>(postProductRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -97,7 +98,7 @@ public class ProductController {
      * 물건 판매글 수정*/
     @ResponseBody
     @PatchMapping("/{userid}")
-    public BaseResponse<String> modifyProduct(@PathVariable("userid") int userid, @RequestBody Product product){
+    public BaseResponse<String> modifyProduct(@PathVariable("userid") int userid, @RequestBody PatchProductReq patchProductReq){
         try {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
@@ -106,7 +107,7 @@ public class ProductController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             //같다면 유저네임 변경
-            PatchProductReq patchProductReq = new PatchProductReq(product.getId(),product.getCategory(),product.getTitle(),product.getContent(),product.getPrice());
+//            PatchProductReq patchProductReq = new PatchProductReq(product.getId(),product.getCategory(),product.getTitle(),product.getContent(),product.getPrice());
             productService.modifyProduct(patchProductReq);
 
             String result = "수정완료";

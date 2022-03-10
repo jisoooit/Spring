@@ -39,13 +39,12 @@ public class ProductService {
     }
 
     //POST
-    public PostProductRes createProduct(PostProductReq postProductReq) throws BaseException {
+    public PostProductRes createProduct(PostProductReq postProductReq,int userIdxByJwt) throws BaseException {
 
         try{
-            int id = productDao.createProduct(postProductReq);
+            int id = productDao.createProduct(postProductReq,userIdxByJwt);
             //jwt 발급.
             String jwt="";
-//            String jwt = jwtService.createJwt(id);
             return new PostProductRes(jwt,id);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
