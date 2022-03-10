@@ -131,7 +131,7 @@ public class UserController {
     /**
      * 유저별 받은 쿠폰함*/
     @ResponseBody
-    @GetMapping("/couponbox/{id}") // (GET) 127.0.0.1:9000/app/users/
+    @GetMapping("/couponbox") // (GET) 127.0.0.1:9000/app/users/
     public BaseResponse<List<GetUserCpnRes>> getCouponBox() {
         // Get Users
         try{
@@ -145,7 +145,7 @@ public class UserController {
     /**
      * 유저별 등록 키워드*/
     @ResponseBody
-    @GetMapping("/keyword/{id}") // (GET) 127.0.0.1:9000/app/users/
+    @GetMapping("/keyword") // (GET) 127.0.0.1:9000/app/users/
     public BaseResponse<List<GetKeyWordRes>> getKeyWord() {
         try{
             int userIdxByJwt = jwtService.getUserIdx();
@@ -158,7 +158,7 @@ public class UserController {
     /**
      * 유저별 채팅방 목록 - 왜 안되는건지 모르겠네 ㅋ*/
     @ResponseBody
-    @GetMapping("/chat/{id}") // (GET) 127.0.0.1:9000/app/users
+    @GetMapping("/chat") // (GET) 127.0.0.1:9000/app/users
     public BaseResponse<List<GetUserChatRes>> getUserChat() {
         try{
             int userIdxByJwt = jwtService.getUserIdx();

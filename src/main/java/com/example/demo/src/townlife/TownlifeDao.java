@@ -146,10 +146,10 @@ public class TownlifeDao {
     }
 
     /*동네 생활글 등록*/
-    public int createTownlife(PostTownlifeReq postTownlifeReq){
+    public int createTownlife(PostTownlifeReq postTownlifeReq, int userIdxByJwt){
 
         String createTownlifeQuery = "insert into townlife(user_id, interest_topic_id,content,status) VALUES (?,?,?,?)";
-        Object[] createTownlifeParams = new Object[]{postTownlifeReq.getUser_id(),postTownlifeReq.getInterest_topic_id(),
+        Object[] createTownlifeParams = new Object[]{userIdxByJwt,postTownlifeReq.getInterest_topic_id(),
             postTownlifeReq.getContent(),postTownlifeReq.getStatus()};
 
         this.jdbcTemplate.update(createTownlifeQuery, createTownlifeParams);
@@ -158,10 +158,10 @@ public class TownlifeDao {
         return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
     }
     /*동네 생활글 댓글 등록*/
-    public int createComment(PostCommentReq postCommentReq){
+    public int createComment(PostCommentReq postCommentReq,int userIdxByJwt){
 
         String createCommentQuery = "insert into townlife_comment_user(user_id, townlife_id,status,content) VALUES (?,?,?,?)";
-        Object[] createCommentParams = new Object[]{postCommentReq.getUser_id(),postCommentReq.getTownlife_id(),
+        Object[] createCommentParams = new Object[]{userIdxByJwt,postCommentReq.getTownlife_id(),
             postCommentReq.getStatus(),postCommentReq.getContent()};
 
         this.jdbcTemplate.update(createCommentQuery, createCommentParams);

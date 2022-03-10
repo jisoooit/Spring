@@ -84,14 +84,15 @@ public class TownlifeController {
     @PostMapping("")
     public BaseResponse<PostTownlifeRes> createTownlife(@RequestBody PostTownlifeReq postTownlifeReq) {
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
-        if(postTownlifeReq.getContent() == null){
-            return new BaseResponse<>(POST_PRODUCT_EMPTY_CONTENT);
-        }
-        if(postTownlifeReq.getInterest_topic_id()==null){
-            return new BaseResponse<>(POST_TOWNLIFE_EMPTY_TOPIC);
-        }
         try{
-            PostTownlifeRes postTownlifeRes = townlifeService.createTownlife(postTownlifeReq);
+            int userIdxByJwt = jwtService.getUserIdx();
+            if(postTownlifeReq.getContent() == null){
+                return new BaseResponse<>(POST_PRODUCT_EMPTY_CONTENT);
+            }
+            if(postTownlifeReq.getInterest_topic_id()==null){
+                return new BaseResponse<>(POST_TOWNLIFE_EMPTY_TOPIC);
+            }
+            PostTownlifeRes postTownlifeRes = townlifeService.createTownlife(postTownlifeReq,userIdxByJwt);
             return new BaseResponse<>(postTownlifeRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -104,11 +105,13 @@ public class TownlifeController {
     @PostMapping("/comment")
     public BaseResponse<PostTownlifeRes> createComment(@RequestBody PostCommentReq postCommentReq) {
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
-        if(postCommentReq.getContent()==null){
-            return new BaseResponse<>(POST_PRODUCT_EMPTY_CONTENT);
-        }
+
         try{
-            PostTownlifeRes postTownlifeRes = townlifeService.createComment(postCommentReq);
+            int userIdxByJwt = jwtService.getUserIdx();
+            if(postCommentReq.getContent()==null){
+                return new BaseResponse<>(POST_PRODUCT_EMPTY_CONTENT);
+            }
+            PostTownlifeRes postTownlifeRes = townlifeService.createComment(postCommentReq,userIdxByJwt);
             return new BaseResponse<>(postTownlifeRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));

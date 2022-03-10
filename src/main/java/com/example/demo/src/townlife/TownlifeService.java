@@ -44,9 +44,9 @@ public class TownlifeService {
 
     //POST
     /*동네생활글 등록*/
-    public PostTownlifeRes createTownlife(PostTownlifeReq postTownlifeReq) throws BaseException {
+    public PostTownlifeRes createTownlife(PostTownlifeReq postTownlifeReq,int userIdxByJwt) throws BaseException {
         try{
-            int id = townlifeDao.createTownlife(postTownlifeReq);
+            int id = townlifeDao.createTownlife(postTownlifeReq, userIdxByJwt);
             //jwt 발급.
 //            String jwt = jwtService.createJwt(id);
             String jwt="";
@@ -57,14 +57,13 @@ public class TownlifeService {
     }
 
     /*동네생활글 댓글 등록*/
-    public PostTownlifeRes createComment(PostCommentReq postCommentReq) throws BaseException {
-        if(townlifeProvider.checkTownlife(postCommentReq.getTownlife_id()) ==0){
-            throw new BaseException(POST_TOWNLIFE_EMPTY_TOWNLIFE);
-        }
+    public PostTownlifeRes createComment(PostCommentReq postCommentReq,int userIdxByJwt) throws BaseException {
+
         try{
-            int id = townlifeDao.createComment(postCommentReq);
-            //jwt 발급.
-//            String jwt = jwtService.createJwt(id);
+            if(townlifeProvider.checkTownlife(postCommentReq.getTownlife_id()) ==0){
+                throw new BaseException(POST_TOWNLIFE_EMPTY_TOWNLIFE);
+            }
+            int id = townlifeDao.createComment(postCommentReq,userIdxByJwt);
             String jwt="";
             return new PostTownlifeRes(jwt,id);
 
