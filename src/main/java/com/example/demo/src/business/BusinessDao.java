@@ -178,10 +178,10 @@ public class BusinessDao {
         String lastInserIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
     }
-    public int createBusiNews(PostBusiNewsReq postBusiNewsReq){
+    public int createBusiNews(PostBusiNewsReq postBusiNewsReq,int userIdxByJwt){
 
         String createBusiNewsQuery="insert into business_news(business_id,title, content, status)VALUES (?,?,?,?)";
-        Object[] createBusiNewsParams = new Object[]{postBusiNewsReq.getBusiness_id(),postBusiNewsReq.getTitle(),
+        Object[] createBusiNewsParams = new Object[]{userIdxByJwt,postBusiNewsReq.getTitle(),
             postBusiNewsReq.getContent(),postBusiNewsReq.getStatus()};
         this.jdbcTemplate.update(createBusiNewsQuery, createBusiNewsParams);
 

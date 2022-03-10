@@ -78,28 +78,29 @@ public class BusinessController {
     @PostMapping("/profile")
     public BaseResponse<PostBusinessRes> createBusiness(@RequestBody PostBusinessReq postBusinessReq) {
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
-        if(postBusinessReq.getStore_name() == null){
-            return new BaseResponse<>(POST_BUSINESS_EMPTY_STORE);
-        }
-        if(postBusinessReq.getType() == null){
-            return new BaseResponse<>(POST_BUSINESS_EMPTY_TYPE);
-        }
-        if(postBusinessReq.getDetail_type() == null){
-            return new BaseResponse<>(POST_BUSINESS_EMPTY_DETAIL_TYPE);
-        }
-        if(postBusinessReq.getPhone() == null){
-            return new BaseResponse<>(POST_USERS_EMPTY_PHONE);
-        }
-        if(!isRegexPhone(postBusinessReq.getPhone())){
-            return new BaseResponse<>(POST_USERS_INVALID_PHONE);
-        }
-        if(postBusinessReq.getPassword()==null){
-            return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
-        }
-        if(!isRegexPassword(postBusinessReq.getPassword())){
-            return new BaseResponse<>(POST_USERS_INVALID_PASSWORD);
-        }
+
         try{
+            if(postBusinessReq.getStore_name() == null){
+                return new BaseResponse<>(POST_BUSINESS_EMPTY_STORE);
+            }
+            if(postBusinessReq.getType() == null){
+                return new BaseResponse<>(POST_BUSINESS_EMPTY_TYPE);
+            }
+            if(postBusinessReq.getDetail_type() == null){
+                return new BaseResponse<>(POST_BUSINESS_EMPTY_DETAIL_TYPE);
+            }
+            if(postBusinessReq.getPhone() == null){
+                return new BaseResponse<>(POST_USERS_EMPTY_PHONE);
+            }
+            if(!isRegexPhone(postBusinessReq.getPhone())){
+                return new BaseResponse<>(POST_USERS_INVALID_PHONE);
+            }
+            if(postBusinessReq.getPassword()==null){
+                return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
+            }
+            if(!isRegexPassword(postBusinessReq.getPassword())){
+                return new BaseResponse<>(POST_USERS_INVALID_PASSWORD);
+            }
             PostBusinessRes postBusinessRes = businessService.createBusiness(postBusinessReq);
             return new BaseResponse<>(postBusinessRes);
         } catch(BaseException exception){
@@ -163,15 +164,16 @@ public class BusinessController {
     @ResponseBody
     @PostMapping("/news")
     public BaseResponse<PostBusinessRes> createBusiNews(@RequestBody PostBusiNewsReq postBusiNewsReq) {
-        if(postBusiNewsReq.getTitle() == null){
-            return new BaseResponse<>(POST_PRODUCT_EMPTY_TITLE);
-        }
-        if(postBusiNewsReq.getContent() == null){
-            return new BaseResponse<>(POST_PRODUCT_EMPTY_CONTENT);
-        }
 
         try{
-            PostBusinessRes postBusinessRes = businessService.createBusiNews(postBusiNewsReq);
+            int userIdxByJwt = jwtService.getUserIdx();
+            if(postBusiNewsReq.getTitle() == null){
+                return new BaseResponse<>(POST_PRODUCT_EMPTY_TITLE);
+            }
+            if(postBusiNewsReq.getContent() == null){
+                return new BaseResponse<>(POST_PRODUCT_EMPTY_CONTENT);
+            }
+            PostBusinessRes postBusinessRes = businessService.createBusiNews(postBusiNewsReq,userIdxByJwt);
             return new BaseResponse<>(postBusinessRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));

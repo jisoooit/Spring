@@ -77,10 +77,10 @@ public class BusinessService {
         }
     }
     /*비즈니스 소식 글쓰기*/
-    public PostBusinessRes createBusiNews(PostBusiNewsReq postBusiNewsReq) throws BaseException {
+    public PostBusinessRes createBusiNews(PostBusiNewsReq postBusiNewsReq,int userIdxByJwt) throws BaseException {
         //중복
         try{
-            int id = businessDao.createBusiNews(postBusiNewsReq);
+            int id = businessDao.createBusiNews(postBusiNewsReq,userIdxByJwt);
             //jwt 발급.
             String jwt="";
 //            String jwt = jwtService.createJwt(id);
