@@ -97,17 +97,17 @@ public class ProductController {
     /**
      * 물건 판매글 수정*/
     @ResponseBody
-    @PatchMapping("/{userid}")
-    public BaseResponse<String> modifyProduct(@PathVariable("userid") int userid, @RequestBody PatchProductReq patchProductReq){
+    @PatchMapping("")
+    public BaseResponse<String> modifyProduct(@RequestBody Product product){
         try {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
             //userIdx와 접근한 유저가 같은지 확인
-            if(userid != userIdxByJwt){
-                return new BaseResponse<>(INVALID_USER_JWT);
-            }
+//            if(userid != userIdxByJwt){
+//                return new BaseResponse<>(INVALID_USER_JWT);
+//            }
             //같다면 유저네임 변경
-//            PatchProductReq patchProductReq = new PatchProductReq(product.getId(),product.getCategory(),product.getTitle(),product.getContent(),product.getPrice());
+            PatchProductReq patchProductReq = new PatchProductReq(product.getId(),userIdxByJwt,product.getCategory(),product.getTitle(),product.getContent(),product.getPrice());
             productService.modifyProduct(patchProductReq);
 
             String result = "수정완료";

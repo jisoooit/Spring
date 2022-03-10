@@ -140,17 +140,17 @@ public class BusinessController {
     }
     /**유저 정보 변경*/
     @ResponseBody
-    @PatchMapping("/{id}")
-    public BaseResponse<String> modifyStoreName(@PathVariable("id") int id, @RequestBody Business business){
+    @PatchMapping("")
+    public BaseResponse<String> modifyStoreName(@RequestBody Business business){
         try {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
             //userIdx와 접근한 유저가 같은지 확인
-            if(id != userIdxByJwt){
-                return new BaseResponse<>(INVALID_USER_JWT);
-            }
+//            if(id != userIdxByJwt){
+//                return new BaseResponse<>(INVALID_USER_JWT);
+//            }
             //같다면 유저네임 변경
-            PatchBusinessReq patchBusinessReq = new PatchBusinessReq(id,business.getStore_name());
+            PatchBusinessReq patchBusinessReq = new PatchBusinessReq(userIdxByJwt,business.getStore_name());
             businessService.modifyStoreName(patchBusinessReq);
 
             String result = "";
@@ -182,18 +182,18 @@ public class BusinessController {
     /**
      * 비즈니스 소식 수정*/
     @ResponseBody
-    @PatchMapping("/news/{bid}")
-    public BaseResponse<String> modifyBusinessNews(@PathVariable("bid") int bid, @RequestBody GetBusiNewsRes getBusiNewsRes){
+    @PatchMapping("/news")
+    public BaseResponse<String> modifyBusinessNews(@RequestBody GetBusiNewsRes getBusiNewsRes){
         try {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
             //userIdx와 접근한 유저가 같은지 확인
-            if(bid != userIdxByJwt){
-                return new BaseResponse<>(INVALID_USER_JWT);
-            }
+//            if(bid != userIdxByJwt){
+//                return new BaseResponse<>(INVALID_USER_JWT);
+//            }
             //같다면 유저네임 변경
 
-            PatchBusiNewsReq PatchBusiNewsReq = new PatchBusiNewsReq(getBusiNewsRes.getNews_num(),getBusiNewsRes.getTitle(),
+            PatchBusiNewsReq PatchBusiNewsReq = new PatchBusiNewsReq(getBusiNewsRes.getNews_num(),userIdxByJwt,getBusiNewsRes.getTitle(),
                     getBusiNewsRes.getContent());
             businessService.modifyBusinessNews(PatchBusiNewsReq);
 

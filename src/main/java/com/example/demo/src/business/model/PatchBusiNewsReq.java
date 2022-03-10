@@ -8,6 +8,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PatchBusiNewsReq {
     private int id;
+    private int business_id;
     private String title;
     private String content;
 }

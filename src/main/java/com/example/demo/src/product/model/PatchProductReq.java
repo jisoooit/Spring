@@ -8,6 +8,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PatchProductReq {
     private long id;
+    private int user_id;
     private String category;
     private String title;
     private String content;

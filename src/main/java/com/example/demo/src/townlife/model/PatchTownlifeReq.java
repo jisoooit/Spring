@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class PatchTownlifeReq {
     private long id;
+    private int user_id;
     private int interest_topic_id;
     private String content;
 }

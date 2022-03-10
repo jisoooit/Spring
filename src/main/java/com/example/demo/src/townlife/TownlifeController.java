@@ -120,20 +120,20 @@ public class TownlifeController {
     /**
      * 동네생활글 수정*/
     @ResponseBody
-    @PatchMapping("/{userid}")
-    public BaseResponse<String> modifyTownlife(@PathVariable("userid") int userid, @RequestBody Townlife townlife){
+    @PatchMapping("")
+    public BaseResponse<String> modifyTownlife(@RequestBody Townlife townlife){
         try {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
             //userIdx와 접근한 유저가 같은지 확인
-            if(userid != userIdxByJwt){
-                return new BaseResponse<>(INVALID_USER_JWT);
-            }
+//            if(userid != userIdxByJwt){
+//                return new BaseResponse<>(INVALID_USER_JWT);
+//            }
             //같다면 유저네임 변경
-            PatchTownlifeReq patchTownlifeReq = new PatchTownlifeReq(townlife.getId(),townlife.getInterest_topic_id(),townlife.getContent());
+            PatchTownlifeReq patchTownlifeReq = new PatchTownlifeReq(townlife.getId(),userIdxByJwt, townlife.getInterest_topic_id(),townlife.getContent());
             townlifeService.modifyTownlife(patchTownlifeReq);
 
-            String result = userid+"의 동네생활글수정완료";
+            String result = userIdxByJwt+"의 동네생활글수정완료";
             return new BaseResponse<>(result);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));

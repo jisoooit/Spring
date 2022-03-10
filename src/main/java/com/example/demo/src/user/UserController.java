@@ -309,17 +309,17 @@ public class UserController {
      * @return BaseResponse<String>
      */
     @ResponseBody
-    @PatchMapping("/{id}")
-    public BaseResponse<String> modifyUserName(@PathVariable("id") int id, @RequestBody User user){
+    @PatchMapping("")
+    public BaseResponse<String> modifyUserName(@RequestBody User user){
         try {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
             //userIdx와 접근한 유저가 같은지 확인
-            if(id != userIdxByJwt){
-                return new BaseResponse<>(INVALID_USER_JWT);
-            }
+//            if(id != userIdxByJwt){
+//                return new BaseResponse<>(INVALID_USER_JWT);
+//            }
             //같다면 유저네임 변경
-            PatchUserReq patchUserReq = new PatchUserReq(id,user.getNick());
+            PatchUserReq patchUserReq = new PatchUserReq(userIdxByJwt,user.getNick());
             userService.modifyUserName(patchUserReq);
 
             String result = "수정완료";

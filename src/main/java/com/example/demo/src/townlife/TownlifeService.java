@@ -79,7 +79,7 @@ public class TownlifeService {
                 throw new BaseException(MODIFY_FAIL_USERNAME);
             }
         } catch(Exception exception){
-            throw new BaseException(DATABASE_ERROR);
+            throw new BaseException(INVALID_USER_JWT);
         }
     }
 }

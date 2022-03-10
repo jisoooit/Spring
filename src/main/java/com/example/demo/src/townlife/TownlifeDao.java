@@ -1,5 +1,6 @@
 package com.example.demo.src.townlife;
 
+import com.example.demo.config.BaseException;
 import com.example.demo.src.product.model.GetSaleDetailRes;
 import com.example.demo.src.product.model.GetSalePageRes;
 import com.example.demo.src.product.model.PatchProductReq;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+
+import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.example.demo.config.BaseResponseStatus.INVALID_USER_JWT;
 
 @Repository
 public class TownlifeDao {
@@ -172,9 +176,11 @@ public class TownlifeDao {
 
     /*동네생활글 수정*/
     public int modifyTownlife(PatchTownlifeReq patchTownlifeReq){
-        String modifyUserNameQuery = "update townlife set interest_topic_id=?, content=? where id = ? ";
-        Object[] modifyUserNameParams = new Object[]{patchTownlifeReq.getInterest_topic_id(),patchTownlifeReq.getContent(),patchTownlifeReq.getId()};
+
+        String modifyUserNameQuery = "update townlife set interest_topic_id=?, content=? where id = ? && user_id= ? ";
+        Object[] modifyUserNameParams = new Object[]{patchTownlifeReq.getInterest_topic_id(),patchTownlifeReq.getContent(),patchTownlifeReq.getId(),patchTownlifeReq.getUser_id()};
         return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
+
     }
 
     /*댓글달글 존재하는지 확인*/

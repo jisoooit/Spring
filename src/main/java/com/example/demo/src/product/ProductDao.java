@@ -118,21 +118,8 @@ public class ProductDao {
     }
     /*물건 판매글 수정*/
     public int modifyProduct(PatchProductReq patchProductReq){
-        String modifyUserNameQuery = "update product set category=?, title=?, content=?, price=? where id = ? ";
-        if (patchProductReq.getCategory()==null){
-            if(patchProductReq.getTitle()==null){
-//                if(patchProductReq.getContent()==null){
-//                    String modifyUserNameQuery4 = "update product set price=? where id = ? ";
-//                }
-                String modifyUserNameQuery3 = "update product set content=?, price=? where id = ? ";
-                Object[] modifyUserNameParams3 = new Object[]{patchProductReq.getContent(),patchProductReq.getPrice(),patchProductReq.getId()};
-                return this.jdbcTemplate.update(modifyUserNameQuery3,modifyUserNameParams3);
-            }
-            String modifyUserNameQuery2 = "update product set title=?, content=?, price=? where id = ? ";
-            Object[] modifyUserNameParams2 = new Object[]{patchProductReq.getTitle(),patchProductReq.getContent(),patchProductReq.getPrice(),patchProductReq.getId()};
-            return this.jdbcTemplate.update(modifyUserNameQuery2,modifyUserNameParams2);
-        }
-        Object[] modifyUserNameParams = new Object[]{patchProductReq.getCategory(),patchProductReq.getTitle(),patchProductReq.getContent(),patchProductReq.getPrice(),patchProductReq.getId()};
+        String modifyUserNameQuery = "update product set category=?, title=?, content=?, price=? where id = ? && user_id=?";
+        Object[] modifyUserNameParams = new Object[]{patchProductReq.getCategory(),patchProductReq.getTitle(),patchProductReq.getContent(),patchProductReq.getPrice(),patchProductReq.getId(),patchProductReq.getUser_id()};
         return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
     }
 

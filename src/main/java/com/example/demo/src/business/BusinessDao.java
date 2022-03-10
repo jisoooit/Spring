@@ -222,8 +222,8 @@ public class BusinessDao {
     }
     /*비즈니스 소식 수정*/
     public int modifyBusinessNews(PatchBusiNewsReq patchBusiNewsReq){
-        String modifyBusinessNewsQuery = "update business_news set title=?, content=? where id = ? ";
-        Object[] modifyBusinessNewsParams = new Object[]{patchBusiNewsReq.getTitle(),patchBusiNewsReq.getContent(),patchBusiNewsReq.getId()};
+        String modifyBusinessNewsQuery = "update business_news set title=?, content=? where id = ? && business_id=? ";
+        Object[] modifyBusinessNewsParams = new Object[]{patchBusiNewsReq.getTitle(),patchBusiNewsReq.getContent(),patchBusiNewsReq.getId(),patchBusiNewsReq.getBusiness_id()};
         return this.jdbcTemplate.update(modifyBusinessNewsQuery,modifyBusinessNewsParams);
     }
 }
