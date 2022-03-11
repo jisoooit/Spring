@@ -10,6 +10,7 @@ import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -129,6 +130,13 @@ public class UserProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+    public int checkSocialId(String socialid) throws BaseException{
+        try{
+            return userDao.checkSocialId(socialid);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
     /*키워드 등록할때*/
     public int checkKeyWord(String keyword) throws BaseException{
@@ -139,6 +147,7 @@ public class UserProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
     public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
         if(userDao.checkPhone(postLoginReq.getPhone())==0){
             throw new BaseException(FAILED_TO_LOGIN);
@@ -152,7 +161,7 @@ public class UserProvider {
         }
 
         if(postLoginReq.getPassword().equals(password)){
-            int userIdx = userDao.getUser(postLoginReq).getId();
+            int userIdx = user.getId();
             String jwt = jwtService.createJwt(userIdx);
             return new PostLoginRes(userIdx,jwt);
         }
@@ -160,6 +169,18 @@ public class UserProvider {
             throw new BaseException(FAILED_TO_LOGIN);
         }
 
+    }
+    public PostLoginRes loginKakaoUser(String kakaoId) throws BaseException {
+        try {
+            User user = userDao.kakaoUser(kakaoId);
+            String jwt = jwtService.createJwt(user.getId());
+            return new PostLoginRes(user.getId(), jwt);
+        } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
+            throw new BaseException(POST_KAKAO_LOGIN_FAIL);
+        }
+        catch (Exception exception) {
+            throw new BaseException(POST_KAKAO_LOGIN_FAIL);
+        }
     }
 
 }

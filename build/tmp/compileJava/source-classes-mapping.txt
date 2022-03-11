@@ -20,16 +20,18 @@ com/example/demo/utils/ValidationRegex.java
  com.example.demo.utils.ValidationRegex
 com/example/demo/src/business/model/GetBusinessRes.java
  com.example.demo.src.business.model.GetBusinessRes
-com/example/demo/src/user/model/GetKeyWordRes.java
- com.example.demo.src.user.model.GetKeyWordRes
 com/example/demo/src/user/model/PostLocSelectReq.java
  com.example.demo.src.user.model.PostLocSelectReq
+com/example/demo/src/user/model/GetKeyWordRes.java
+ com.example.demo.src.user.model.GetKeyWordRes
 com/example/demo/src/business/model/PostBusinessReq.java
  com.example.demo.src.business.model.PostBusinessReq
 com/example/demo/src/townlife/model/PatchTownlifeReq.java
  com.example.demo.src.townlife.model.PatchTownlifeReq
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
+com/example/demo/src/user/model/KakaoUserResProperties.java
+ com.example.demo.src.user.model.KakaoUserResProperties
 com/example/demo/src/business/model/PostBusiNewsReq.java
  com.example.demo.src.business.model.PostBusiNewsReq
 com/example/demo/src/product/model/GetSalePageRes.java
@@ -62,6 +64,8 @@ com/example/demo/src/product/ProductController.java
  com.example.demo.src.product.ProductController
 com/example/demo/config/BaseException.java
  com.example.demo.config.BaseException
+com/example/demo/src/user/model/KakaoAccessTokenRes.java
+ com.example.demo.src.user.model.KakaoAccessTokenRes
 com/example/demo/src/business/model/PostBusinessRes.java
  com.example.demo.src.business.model.PostBusinessRes
 com/example/demo/src/townlife/model/Townlife.java
@@ -96,6 +100,8 @@ com/example/demo/src/user/KakaoController.java
  com.example.demo.src.user.KakaoController
 com/example/demo/src/test/TestController.java
  com.example.demo.src.test.TestController
+com/example/demo/src/user/model/KakaoUserRes.java
+ com.example.demo.src.user.model.KakaoUserRes
 com/example/demo/src/townlife/TownlifeController.java
  com.example.demo.src.townlife.TownlifeController
 com/example/demo/src/user/model/PostLoginReq.java

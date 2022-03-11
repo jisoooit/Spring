@@ -4,6 +4,8 @@ import com.example.demo.config.secret.Secret;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.AES128;
 import com.example.demo.utils.JwtService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -30,7 +32,7 @@ import static com.example.demo.config.BaseResponseStatus.*;
 @Service
 public class KakaoService {
 
-    public String getAccessToken(String authorizedCode) {
+    public String getAccessToken(String authorizedCode) throws JsonProcessingException {
         System.out.println("getAccessToken 호출");
         // HttpHeader 오브젝트 생성
         HttpHeaders headers = new HttpHeaders();
@@ -57,21 +59,27 @@ public class KakaoService {
         );
 
         // JSON -> 액세스 토큰 파싱
+        String accessToken="";
         String tokenJson = response.getBody();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        KakaoAccessTokenRes kakaoAccessTokenRes = objectMapper.readValue(tokenJson, KakaoAccessTokenRes.class);
+        System.out.println("액세스 토큰임 : "+ kakaoAccessTokenRes.getAccess_token());
+        accessToken= kakaoAccessTokenRes.getAccess_token();
 //        JSONObject rjson = new JSONObject(tokenJson);
 //        String accessToken = rjson.getString("access_token");   //우리가 필요한건 accessToken
-        JsonParser parser = new JsonParser();
-        JsonElement element = parser.parse(tokenJson);
-
-        String accessToken = element.getAsJsonObject().get("access_token").getAsString();
-        String refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
-
-        System.out.println("access_token : " + accessToken);
-        System.out.println("refresh_token : " + refreshToken);
+//        JsonParser parser = new JsonParser();
+//        JsonElement element = parser.parse(tokenJson);
+//
+//        String accessToken = element.getAsJsonObject().get("access_token").getAsString();
+//        String refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
+//
+//        System.out.println("access_token : " + accessToken);
+//        System.out.println("refresh_token : " + refreshToken);
 
         return accessToken;
     }
-    public HashMap<String, Object> getUserInfoByToken(String accessToken) {
+    public String getUserInfoByToken(String accessToken) throws JsonProcessingException {
         HashMap<String, Object> userInfo = new HashMap<>();
         // HttpHeader 오브젝트 생성
         HttpHeaders headers = new HttpHeaders();
@@ -89,21 +97,29 @@ public class KakaoService {
                 kakaoProfileRequest,
                 String.class
         );
-
-        JsonParser parser = new JsonParser();
-        JsonElement element = parser.parse(response.getBody());
-        System.out.println(element);
-        JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-        JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-
-        String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-        String email = kakao_account.getAsJsonObject().get("email").getAsString();
-
-        userInfo.put("nickname", nickname);
-        userInfo.put("email", email);
+        String result=response.getBody();
+        ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println(result);
+        KakaoUserRes kakaoUserRes = objectMapper.readValue(result, KakaoUserRes.class);
+        System.out.println("카카오 유저 Idx : "+ kakaoUserRes.getId());
+        System.out.println("카카오 유저 닉넴 : "+ kakaoUserRes.getProperties().getNickname());
+        String kakaoId = kakaoUserRes.getId().toString();
+//        JsonParser parser = new JsonParser();
+//        JsonElement element = parser.parse(response.getBody());
+//        System.out.println(element);
+//        String id=element.getAsJsonObject().get("id").getAsString();
+//        String created_at=element.getAsJsonObject().get("connected_at").getAsString();
+//        JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+//        JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+//        String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+//        String email = kakao_account.getAsJsonObject().get("email").getAsString();
+//        userInfo.put("id",id);
+//        userInfo.put("created_at",created_at);
+//        userInfo.put("nickname", nickname);
+//        userInfo.put("email", email);
 
         //가져온 사용자 정보를 객체로 만들어서 반환
-        return userInfo;
+        return kakaoId;
     }
 
 }

@@ -20,6 +20,8 @@ public class User {
       private Timestamp created_at;
       private Timestamp updated_at;
       private String password;
+      private String social;
+      private String social_id;
 //    private int userIdx;
 //    private String ID;
 //    private String userName;

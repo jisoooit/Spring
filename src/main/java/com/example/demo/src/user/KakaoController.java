@@ -21,9 +21,9 @@ import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 @RequestMapping("/oauth/kakao")
 public class KakaoController {
 //    @Autowired
-    private KakaoService kakaoService;
-    public KakaoController(KakaoService kakaoService){
-        this.kakaoService = kakaoService;
+    private UserService userService;
+    public KakaoController(UserService userService){
+        this.userService = userService;
     }
 
 //
@@ -38,10 +38,8 @@ public class KakaoController {
     @GetMapping("")
     public String home(@RequestParam(value = "code", required = false) String code) throws Exception{
         System.out.println("#########" + code);
-        String access_Token = kakaoService.getAccessToken(code);
-        HashMap<String, Object> userInfo = kakaoService.getUserInfoByToken(access_Token);
-        System.out.println("###userInfo#### : " + userInfo.get("email"));
-        System.out.println("###nickname#### : " + userInfo.get("nickname"));
+        String access_Token = userService.getAccessToken(code);
+        String kakaoid=userService.getUserInfoByToken(access_Token);
         return "";
     }
 }

@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 @Setter
 @AllArgsConstructor
 public class PostUserReq {
+      private String socialid;
       private String phone;
       private String nick;
 //      private Float manner;
@@ -17,6 +18,7 @@ public class PostUserReq {
 //      private Float reponse_rate;
       private String password;
       private String status;
+      private String social;
 
 //      private Timestamp created_at;
 //      private Timestamp updated_at;

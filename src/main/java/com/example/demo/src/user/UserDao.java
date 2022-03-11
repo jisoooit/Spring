@@ -252,11 +252,15 @@ public class UserDao {
     }
     /*회원 가입*/
     public int createUser(PostUserReq postUserReq){
-
-        String createUserQuery = "insert into user(phone,nick,status,password) VALUES (?,?,?,?)";
-        Object[] createUserParams = new Object[]{postUserReq.getPhone(), postUserReq.getNick(),postUserReq.getStatus(),postUserReq.getPassword()};
-
-        this.jdbcTemplate.update(createUserQuery, createUserParams);
+        if(postUserReq.getSocialid()==null){
+            String createUserQuery = "insert into user(phone,nick,status,password) VALUES (?,?,?,?)";
+            Object[] createUserParams = new Object[]{postUserReq.getPhone(), postUserReq.getNick(),postUserReq.getStatus(),postUserReq.getPassword()};
+            this.jdbcTemplate.update(createUserQuery, createUserParams);
+        }else{
+            String createUserQuery = "insert into user(social_id,phone,nick,status,password) VALUES (?,?,?,?,?)";
+            Object[] createUserParams = new Object[]{postUserReq.getSocialid(),postUserReq.getPhone(), postUserReq.getNick(),postUserReq.getStatus(),postUserReq.getPassword()};
+            this.jdbcTemplate.update(createUserQuery, createUserParams);
+        }
 
         String lastInserIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInserIdQuery,int.class);
@@ -314,7 +318,13 @@ public class UserDao {
                 int.class,
                 checkPhoneParams);
     }
-
+    public int checkSocialId(String socialid){
+        String checkSocialIdQuery = "select exists(select social_id from user where social_id = ?)";
+        String checkSocialIdParams = socialid;
+        return this.jdbcTemplate.queryForObject(checkSocialIdQuery,
+                int.class,
+                checkSocialIdParams);
+    }
 
     public int checkKeyWord(String keyword){
         String checkPhoneQuery = "select exists(select keyword from notification where keyword = ?)";
@@ -347,13 +357,36 @@ public class UserDao {
                         rs.getString("status"),
                         rs.getTimestamp("created_at"),
                         rs.getTimestamp("updated_at"),
-                        rs.getString("password")
+                        rs.getString("password"),
+                        rs.getString("social"),
+                        rs.getString("social_id")
                 ),
                 getPwdParams
                 );
 
     }
-
+    public User kakaoUser(String loginId){
+        String retrieveUserQuery = ""
+                + "SELECT * "
+                + "FROM   user "
+                + "WHERE  social_id = ?;";
+        String retrieveUserParams = loginId;
+        return this.jdbcTemplate.queryForObject(retrieveUserQuery,
+                ((rs, rowNum) -> new User(
+                        rs.getInt("id"),
+                        rs.getString("phone"),
+                        rs.getString("nick"),
+                        rs.getFloat("manner"),
+                        rs.getFloat("retrans_rate"),
+                        rs.getFloat("reponse_rate"),
+                        rs.getString("status"),
+                        rs.getTimestamp("created_at"),
+                        rs.getTimestamp("updated_at"),
+                        rs.getString("password"),
+                        rs.getString("social"),
+                        rs.getString("social_id")
+                )), retrieveUserParams);
+    }
 //    /*유저가 db에 존재하는지 확인*/
 //    public int checkUser(int id){
 //        String checkPhoneQuery = "select exists(select * from user where id = ?)";

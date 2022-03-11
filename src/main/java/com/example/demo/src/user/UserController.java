@@ -9,7 +9,11 @@ import com.example.demo.src.user.model.*;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -221,6 +225,17 @@ public class UserController {
     @PostMapping("")
     public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
+        if(postUserReq.getSocial()==null){
+            postUserReq.setSocial("default");
+        }
+        if(postUserReq.getSocial()=="default"){
+            if(postUserReq.getPassword()==null){
+                return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
+            }
+            if(!isRegexPassword(postUserReq.getPassword())){
+                return new BaseResponse<>(POST_USERS_INVALID_PASSWORD);
+            }
+        }
         if(postUserReq.getPhone() == null){
             return new BaseResponse<>(POST_USERS_EMPTY_PHONE);
         }
@@ -229,12 +244,6 @@ public class UserController {
         }
         if(postUserReq.getNick()==null){
             return new BaseResponse<>(POST_USERS_EMPTY_NICK);
-        }
-        if(postUserReq.getPassword()==null){
-            return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
-        }
-        if(!isRegexPassword(postUserReq.getPassword())){
-            return new BaseResponse<>(POST_USERS_INVALID_PASSWORD);
         }
 //        //이메일 정규표현
 //        if(!isRegexEmail(postUserReq.getPhone())){
@@ -281,6 +290,7 @@ public class UserController {
     @ResponseBody
     @PostMapping("/logIn")
     public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
+
         try{
             // TODO: 로그인 값들에 대한 형식적인 validatin 처리해주셔야합니다!
             // TODO: 유저의 status ex) 비활성화된 유저, 탈퇴한 유저 등을 관리해주고 있다면 해당 부분에 대한 validation 처리도 해주셔야합니다.
@@ -302,7 +312,27 @@ public class UserController {
             return new BaseResponse<>(exception.getStatus());
         }
     }
+    /**카카오로그인*/
+    @ResponseBody
+    @GetMapping("/kakaologin")
+    public BaseResponse<PostLoginRes> getKakaoUserLogin() {
+        try{
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+            String accessToken = request.getHeader("Access-Token");
+            if (accessToken == null) {
+                return new BaseResponse<>(POST_KAKAO_INVALID_TOKEN);
+            }
+            String kakaoId = "kakao"+userService.getUserInfoByToken(accessToken);
+            PostLoginRes userLoginRes = userProvider.loginKakaoUser(kakaoId);
+            return new BaseResponse<>(userLoginRes);
+        } catch (IOException ioException) {
+            return new BaseResponse<>(POST_KAKAO_INVALID_TOKEN);
+        }
+        catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
 
+    }
     /**
      * 유저정보변경 API
      * [PATCH] /users/:userIdx
