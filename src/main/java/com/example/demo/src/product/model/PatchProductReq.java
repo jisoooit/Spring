@@ -12,5 +12,5 @@ public class PatchProductReq {
     private String category;
     private String title;
     private String content;
-    private int price;
+    private Integer price;
 }

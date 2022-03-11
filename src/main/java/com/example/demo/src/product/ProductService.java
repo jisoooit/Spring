@@ -56,6 +56,7 @@ public class ProductService {
         try{
             int result = productDao.modifyProduct(patchProductReq);
             if(result == 0){
+                System.out.println("이거실행");
                 throw new BaseException(MODIFY_FAIL_USERNAME);
             }
         } catch(Exception exception){
