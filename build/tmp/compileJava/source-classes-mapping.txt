@@ -128,6 +128,8 @@ com/example/demo/src/user/model/GetInterestListRes.java
  com.example.demo.src.user.model.GetInterestListRes
 com/example/demo/src/user/model/User.java
  com.example.demo.src.user.model.User
+com/example/demo/src/user/model/KakaoUserResAccount.java
+ com.example.demo.src.user.model.KakaoUserResAccount
 com/example/demo/src/user/model/GetUserRes.java
  com.example.demo.src.user.model.GetUserRes
 com/example/demo/src/business/model/GetBusiNewsRes.java

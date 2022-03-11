@@ -15,5 +15,6 @@ public class KakaoUserRes {
     private String id;
     private String connected_at;
     private KakaoUserResProperties properties;
+    private KakaoUserResAccount kakao_account;
 }
 

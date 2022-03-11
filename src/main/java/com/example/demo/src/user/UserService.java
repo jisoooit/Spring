@@ -232,6 +232,7 @@ public class UserService {
         KakaoUserRes kakaoUserRes = objectMapper.readValue(result, KakaoUserRes.class);
         System.out.println("카카오 유저 Idx : "+ kakaoUserRes.getId());
         System.out.println("카카오 유저 닉넴 : "+ kakaoUserRes.getProperties().getNickname());
+        System.out.println("카카오 유저 이메일 : "+ kakaoUserRes.getKakao_account().getEmail());
         String kakaoId = kakaoUserRes.getId().toString();
 
         //가져온 사용자 정보를 객체로 만들어서 반환
