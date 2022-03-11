@@ -51,7 +51,7 @@ public enum BaseResponseStatus {
 
     POST_USERS_EXISTS_KEYWORD(false, 2027, "중복된 키워드 입니다."),
     POST_USERS_EMPTY_PASSWORD(false,2028,"비밀번호를 입력해주세요"),
-    POST_USERS_INVALID_PASSWORD(false,2028,"비밀번호 형식을 확인해주세요"),
+    POST_USERS_INVALID_PASSWORD(false,2029,"비밀번호 형식을 확인해주세요"),
     POST_KAKAO_INVALID_TOKEN(false,2050,"유효하지않은 카카오 토큰입니다."),
     POST_KAKAO_LOGIN_FAIL(false,2051,"카카오 로그인실패"),
     POST_KAKAO_LOGIN_EXISTS(false,2051,"중복된 카카오아이디입니다."),
