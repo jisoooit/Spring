@@ -97,7 +97,7 @@ public class UserService {
     //POST
     @Transactional
     public PostUserRes createUser(PostUserReq postUserReq) throws BaseException {
-        if (postUserReq.getSocial().equals("kakao")) {
+        if (postUserReq.getSocial().equals("kakao")) { //한번에로그인할때는 이부분 일단 주석처리해
             System.out.println("카카오회원가입");
             try {
                 HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -178,27 +178,17 @@ public class UserService {
 //    public PostLoginRes loginKakao(String code) throws BaseException, JsonProcessingException {
 //        try{
 //            String accessToken=getAccessToken(code);
-//            String kakaoid="k"+getUserInfoByToken(accessToken);
-//            List<User> userlist=userDao.kakaoUserList(kakaoid);
+//            String kakaoid="kaka"+getUserInfoByToken(accessToken);
 //            int id;
-////        System.out.println(user.getSocial());
-////        System.out.println(user.getSocial_id());
-////
-////        System.out.println(id);
-////        System.out.println(user);
-//            if(userlist.size()==0){
-//                System.out.println("여기");
+//            if(userProvider.checkSocialId(kakaoid)==1){
+//                User user=userDao.kakaoUser(kakaoid);
+//                id=user.getId();
+//            }else{
 //                PostUserReq postUserReq=new PostUserReq(kakaoid,"","","","active","kakao");
 //                PostUserRes postUserRes=createUser(postUserReq);
 //                System.out.println("여기는?");
 //                id=postUserRes.getId();
-//                System.out.println(id);
 //            }
-//            else{
-//                User user=userDao.kakaoUser(kakaoid);
-//                id=user.getId();
-//            }
-////            User user2 = userDao.kakaoUser(kakaoid);
 //            String jwt = jwtService.createJwt(id);
 //            return new PostLoginRes(id,jwt);
 //        }catch (Exception e){
