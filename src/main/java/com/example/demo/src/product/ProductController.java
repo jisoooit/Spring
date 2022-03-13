@@ -98,7 +98,7 @@ public class ProductController {
      * 물건 판매글 수정*/
     @ResponseBody
     @PatchMapping("")
-    public BaseResponse<String> modifyProduct(@RequestBody Product product){
+    public BaseResponse<String> modifyProduct(@RequestBody PatchProductReq patchProductReq){
         try {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
@@ -107,8 +107,10 @@ public class ProductController {
 //                return new BaseResponse<>(INVALID_USER_JWT);
 //            }
             //같다면 유저네임 변경
-            PatchProductReq patchProductReq = new PatchProductReq(product.getId(),userIdxByJwt,product.getCategory(),product.getTitle(),product.getContent(),product.getPrice());
+            //PatchProductReq patchProductReq = new PatchProductReq(product.getId(),userIdxByJwt,product.getCategory(),product.getTitle(),product.getContent(),product.getPrice());
+            patchProductReq.setUser_id(userIdxByJwt);
             productService.modifyProduct(patchProductReq);
+          //  productService.modifyProduct(product);
 
             String result = "수정완료";
             return new BaseResponse<>(result);

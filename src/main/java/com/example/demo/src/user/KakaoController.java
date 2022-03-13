@@ -10,6 +10,7 @@ import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,8 +39,18 @@ public class KakaoController {
     @GetMapping("")
     public String home(@RequestParam(value = "code", required = false) String code) throws Exception{
         System.out.println("#########" + code);
+//        try{
+//            PostLoginRes userLoginRes = userService.loginKakao(code);
+//            return new BaseResponse<>(userLoginRes);
+//        } catch (IOException ioException) {
+//            return new BaseResponse<>(POST_KAKAO_INVALID_TOKEN);
+//        }
+//        catch(BaseException exception){
+//            return new BaseResponse<>((exception.getStatus()));
+//        }
         String access_Token = userService.getAccessToken(code);
         String kakaoid=userService.getUserInfoByToken(access_Token);
+//        BaseResponse<PostLoginRes>리턴값
         return "";
     }
 }

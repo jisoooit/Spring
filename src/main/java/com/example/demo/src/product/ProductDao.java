@@ -1,9 +1,6 @@
 package com.example.demo.src.product;
 
-import com.example.demo.src.product.model.GetSaleDetailRes;
-import com.example.demo.src.product.model.GetSalePageRes;
-import com.example.demo.src.product.model.PatchProductReq;
-import com.example.demo.src.product.model.PostProductReq;
+import com.example.demo.src.product.model.*;
 import com.example.demo.src.user.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -101,7 +98,28 @@ public class ProductDao {
                 getProductParams);
     }
 
-
+    public Product getProductObject(int user_id,long id){
+        String getUserQuery = "select * from product where user_id = ? && id=?";
+        long getUserParams2 = id;
+        int getUserParams1=user_id;
+        return this.jdbcTemplate.queryForObject(getUserQuery,
+                (rs, rowNum) -> new Product(
+                        rs.getLong("id"),
+                        rs.getInt("user_id"),
+                        rs.getString("category"),
+                        rs.getString("title"),
+                        rs.getString("content"),
+                        rs.getInt("price"),
+                        rs.getInt("price_suggest"),
+                        rs.getInt("status"),
+                        rs.getTimestamp("create_at"),
+                        rs.getTimestamp("update_at"),
+                        rs.getInt("sale_status"),
+                        rs.getInt("buyer_id"),
+                        rs.getInt("again_status")
+                ),
+                getUserParams1,getUserParams2);
+    }
     /*물건판매글 등록*/
     public int createProduct(PostProductReq postProductReq, int userIdxByJwt){
 
@@ -118,35 +136,40 @@ public class ProductDao {
     }
     /*물건 판매글 수정*/
     public int modifyProduct(PatchProductReq patchProductReq){
-        Object[] modifyProduct;
-        int cnt=0;
-        if(patchProductReq.getCategory()!=null){
+//        Object[] modifyProduct;
+//        int cnt=0;
+//        if(patchProductReq.getCategory()!=null){
+//
+//            modifyProduct=new Object[]{patchProductReq.getCategory(),patchProductReq.getId(),patchProductReq.getUser_id()};
+//            cnt+=this.jdbcTemplate.update("update product set category=? where id=? && user_id=?",modifyProduct);
+//            System.out.println("q");
+//
+//        }
+//        if(patchProductReq.getTitle()!=null){
+//            modifyProduct=new Object[]{patchProductReq.getTitle(),patchProductReq.getId(),patchProductReq.getUser_id()};
+//            cnt+=this.jdbcTemplate.update("update product set title=? where id=? && user_id=?",modifyProduct);
+//            System.out.println("w");
+//        }
+//        if(patchProductReq.getContent()!=null){
+//            modifyProduct=new Object[]{patchProductReq.getContent(),patchProductReq.getId(),patchProductReq.getUser_id()};
+//            cnt+=this.jdbcTemplate.update("update product set content=? where id=? && user_id=?",modifyProduct);
+//            System.out.println("e");
+//        }
+//        if(patchProductReq.getPrice()!=0){
+//            modifyProduct=new Object[]{patchProductReq.getPrice(),patchProductReq.getId(),patchProductReq.getUser_id()};
+//            cnt+=this.jdbcTemplate.update("update product set price=? where id=? && user_id=?",modifyProduct);
+//            System.out.println(patchProductReq.getPrice());
+//        }
+//        System.out.println(cnt);
+//        return cnt;
+        String modifyUserNameQuery = "update product set category=?, title=?, content=?, price=? where id = ? && user_id=?";
+        Object[] modifyUserNameParams = new Object[]{patchProductReq.getCategory(),patchProductReq.getTitle(),patchProductReq.getContent(),patchProductReq.getPrice(),patchProductReq.getId(),patchProductReq.getUser_id()};
+//        System.out.println(patchProductReq.getCategory());
+//        System.out.println(patchProductReq.getTitle());
+//        System.out.println(patchProductReq.getContent());
+//        System.out.println(patchProductReq.getPrice());
+        return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
 
-            modifyProduct=new Object[]{patchProductReq.getCategory(),patchProductReq.getId(),patchProductReq.getUser_id()};
-            cnt+=this.jdbcTemplate.update("update product set category=? where id=? && user_id=?",modifyProduct);
-            System.out.println("q");
-
-        }
-        if(patchProductReq.getTitle()!=null){
-            modifyProduct=new Object[]{patchProductReq.getTitle(),patchProductReq.getId(),patchProductReq.getUser_id()};
-            cnt+=this.jdbcTemplate.update("update product set title=? where id=? && user_id=?",modifyProduct);
-            System.out.println("w");
-        }
-        if(patchProductReq.getContent()!=null){
-            modifyProduct=new Object[]{patchProductReq.getContent(),patchProductReq.getId(),patchProductReq.getUser_id()};
-            cnt+=this.jdbcTemplate.update("update product set content=? where id=? && user_id=?",modifyProduct);
-            System.out.println("e");
-        }
-        if(patchProductReq.getPrice()!=0){
-            modifyProduct=new Object[]{patchProductReq.getPrice(),patchProductReq.getId(),patchProductReq.getUser_id()};
-            cnt+=this.jdbcTemplate.update("update product set price=? where id=? && user_id=?",modifyProduct);
-            System.out.println(patchProductReq.getPrice());
-        }
-//        String modifyUserNameQuery = "update product set category=?, title=?, content=?, price=? where id = ? && user_id=?";
-//        Object[] modifyUserNameParams = new Object[]{patchProductReq.getCategory(),patchProductReq.getTitle(),patchProductReq.getContent(),patchProductReq.getPrice(),patchProductReq.getId(),patchProductReq.getUser_id()};
-//        return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
-        System.out.println(cnt);
-        return cnt;
     }
 
 }

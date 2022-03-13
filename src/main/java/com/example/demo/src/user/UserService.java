@@ -30,6 +30,7 @@ import javax.sql.DataSource;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -137,6 +138,7 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+    @Transactional
     public PostLocationRes createLocation(PostLocationReq postLocationReq,int userIdxByJwt) throws BaseException {
         //중복
         try{
@@ -172,6 +174,38 @@ public class UserService {
         }
     }
 
+    /**한번에 로그인 하는거 만들어보고싶었어....*/
+//    public PostLoginRes loginKakao(String code) throws BaseException, JsonProcessingException {
+//        try{
+//            String accessToken=getAccessToken(code);
+//            String kakaoid="k"+getUserInfoByToken(accessToken);
+//            List<User> userlist=userDao.kakaoUserList(kakaoid);
+//            int id;
+////        System.out.println(user.getSocial());
+////        System.out.println(user.getSocial_id());
+////
+////        System.out.println(id);
+////        System.out.println(user);
+//            if(userlist.size()==0){
+//                System.out.println("여기");
+//                PostUserReq postUserReq=new PostUserReq(kakaoid,"","","","active","kakao");
+//                PostUserRes postUserRes=createUser(postUserReq);
+//                System.out.println("여기는?");
+//                id=postUserRes.getId();
+//                System.out.println(id);
+//            }
+//            else{
+//                User user=userDao.kakaoUser(kakaoid);
+//                id=user.getId();
+//            }
+////            User user2 = userDao.kakaoUser(kakaoid);
+//            String jwt = jwtService.createJwt(id);
+//            return new PostLoginRes(id,jwt);
+//        }catch (Exception e){
+//            throw new BaseException(POST_KAKAO_LOGIN_EXISTS);
+//        }
+//
+//    }
     public String getAccessToken(String authorizedCode) throws JsonProcessingException {
         System.out.println("getAccessToken 호출");
         // HttpHeader 오브젝트 생성

@@ -6,6 +6,7 @@ import com.example.demo.config.secret.Secret;
 import com.example.demo.src.product.model.PatchProductReq;
 import com.example.demo.src.product.model.PostProductReq;
 import com.example.demo.src.product.model.PostProductRes;
+import com.example.demo.src.product.model.Product;
 import com.example.demo.src.user.UserDao;
 import com.example.demo.src.user.UserProvider;
 import com.example.demo.src.user.model.*;
@@ -54,7 +55,12 @@ public class ProductService {
     /*물건 판매글 수정*/
     public void modifyProduct(PatchProductReq patchProductReq) throws BaseException {
         try{
+
+            Product product=productDao.getProductObject(patchProductReq.getUser_id(),patchProductReq.getId());
+            patchProductReq.setNullProduct(product);
+            System.out.println(product.getContent());
             int result = productDao.modifyProduct(patchProductReq);
+            System.out.println(result);
             if(result == 0){
                 System.out.println("이거실행");
                 throw new BaseException(MODIFY_FAIL_USERNAME);

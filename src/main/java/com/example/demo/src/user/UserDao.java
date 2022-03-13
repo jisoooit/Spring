@@ -257,8 +257,8 @@ public class UserDao {
             Object[] createUserParams = new Object[]{postUserReq.getPhone(), postUserReq.getNick(),postUserReq.getStatus(),postUserReq.getPassword()};
             this.jdbcTemplate.update(createUserQuery, createUserParams);
         }else{
-            String createUserQuery = "insert into user(social_id,phone,nick,status,password) VALUES (?,?,?,?,?)";
-            Object[] createUserParams = new Object[]{postUserReq.getSocialid(),postUserReq.getPhone(), postUserReq.getNick(),postUserReq.getStatus(),postUserReq.getPassword()};
+            String createUserQuery = "insert into user(social_id,phone,nick,status,password,social) VALUES (?,?,?,?,?,?)";
+            Object[] createUserParams = new Object[]{postUserReq.getSocialid(),postUserReq.getPhone(), postUserReq.getNick(),postUserReq.getStatus(),postUserReq.getPassword(),postUserReq.getSocial()};
             this.jdbcTemplate.update(createUserQuery, createUserParams);
         }
 
@@ -365,6 +365,29 @@ public class UserDao {
                 );
 
     }
+    public List<User> kakaoUserList(String loginId){
+        String retrieveUserQuery = ""
+                + "SELECT * "
+                + "FROM   user "
+                + "WHERE  social_id = ?;";
+        String retrieveUserParams = loginId;
+        return this.jdbcTemplate.query(retrieveUserQuery,
+                ((rs, rowNum) -> new User(
+                        rs.getInt("id"),
+                        rs.getString("phone"),
+                        rs.getString("nick"),
+                        rs.getFloat("manner"),
+                        rs.getFloat("retrans_rate"),
+                        rs.getFloat("reponse_rate"),
+                        rs.getString("status"),
+                        rs.getTimestamp("created_at"),
+                        rs.getTimestamp("updated_at"),
+                        rs.getString("password"),
+                        rs.getString("social"),
+                        rs.getString("social_id")
+                )), retrieveUserParams);
+    }
+
     public User kakaoUser(String loginId){
         String retrieveUserQuery = ""
                 + "SELECT * "

@@ -1,5 +1,6 @@
 package com.example.demo.src.product.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +10,6 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @AllArgsConstructor
-
 public class Product {
     private long id;
     private int user_id;

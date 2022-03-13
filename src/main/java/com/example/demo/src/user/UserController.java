@@ -8,6 +8,7 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -223,6 +224,7 @@ public class UserController {
     // Body
     @ResponseBody
     @PostMapping("")
+    @Transactional
     public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
         if(postUserReq.getSocial()==null){
@@ -333,6 +335,8 @@ public class UserController {
         }
 
     }
+
+
     /**
      * 유저정보변경 API
      * [PATCH] /users/:userIdx
