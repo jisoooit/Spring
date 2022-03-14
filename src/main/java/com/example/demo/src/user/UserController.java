@@ -63,7 +63,17 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+    @ResponseBody
+    @GetMapping("/page") // (GET) 127.0.0.1:9000/app/users
+    public BaseResponse<List<GetUserRes>> getUsersPaging(@RequestParam(required = false) int page, int limit) {
+        try{
 
+            List<GetUserRes> getUsersRes = userProvider.getUsersPaging(page,limit);
+            return new BaseResponse<>(getUsersRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
     /**
      * 회원 1명 조회 API
      * [GET] /users/:userIdx

@@ -43,6 +43,15 @@ public class UserProvider {
         }
     }
 
+    public List<GetUserRes> getUsersPaging(int page,int limit) throws BaseException{
+        try{
+            List<GetUserRes> getUserRes = userDao.getUsersPaging(page,limit);
+            return getUserRes;
+        }
+        catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
     public List<GetUserRes> getUsersByPhone(String phone) throws BaseException{
         if(checkPhone(phone) ==0){

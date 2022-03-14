@@ -37,6 +37,25 @@ public class UserDao {
                 );
     }
 
+    public List<GetUserRes> getUsersPaging(int page,int limit){
+        int offset=(page-1)*limit;
+        String getUsersQuery = "select * from user order by id desc limit ? offset ?"; //limit, offset
+        int cnt=this.jdbcTemplate.queryForObject("select count(*) from user ",int.class); //전체 객체수 구하기
+//        int x=cnt-offset+1;
+//        System.out.println(cnt);
+//        String getUsersNoOffsetQuery="select * from user order by id desc where ? > id limit ? "; //x,limit
+        //String getUsersNoOffsetQuery="select * from user where ? < id limit ? ";  //offset, limit
+        return this.jdbcTemplate.query(getUsersQuery,
+                (rs,rowNum) -> new GetUserRes(
+                        rs.getInt("id"),
+                        rs.getString("phone"),
+                        rs.getString("nick"),
+                        rs.getFloat("manner"),
+                        rs.getFloat("retrans_rate"),
+                        rs.getFloat("reponse_rate")
+                ),
+        limit,offset);
+    }
     public List<GetUserRes> getUsersByPhone(String phone){
         String getUsersByPhoneQuery = "select * from user where phone =?";
         String getUsersByPhoneParams = phone;

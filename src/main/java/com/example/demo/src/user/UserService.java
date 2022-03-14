@@ -174,17 +174,19 @@ public class UserService {
         }
     }
 
-    /**한번에 로그인 하는거 만들어보고싶었어....*/
+    /**한번에 로그인 하는거 만들어보고싶었어....
+     * code가 프론트 한테 전해진다고 가정하면 이 코드를 controller에 갖다놓으면 파라미터로 postUserReq 받아서 회원가입 정보 추가로 받는것도 가능할듯
+     * 못받은건 따로 set으로 넣어주고*/
 //    public PostLoginRes loginKakao(String code) throws BaseException, JsonProcessingException {
 //        try{
 //            String accessToken=getAccessToken(code);
-//            String kakaoid="kaka"+getUserInfoByToken(accessToken);
+//            String kakaoid="kakao"+getUserInfoByToken(accessToken);
 //            int id;
 //            if(userProvider.checkSocialId(kakaoid)==1){
 //                User user=userDao.kakaoUser(kakaoid);
 //                id=user.getId();
 //            }else{
-//                PostUserReq postUserReq=new PostUserReq(kakaoid,"","","","active","kakao");
+//                PostUserReq postUserReq=new PostUserReq(kakaoid,"","","","active","kakao"); //controller에 놓으면 이부분이 달라지겟지 new로 안하고 값을 받을거니까
 //                PostUserRes postUserRes=createUser(postUserReq);
 //                System.out.println("여기는?");
 //                id=postUserRes.getId();
